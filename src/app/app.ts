@@ -9,10 +9,11 @@ import { historyComponent } from './components/history/history';
 import { detailsComponent } from './components/details/details';
 import { locationComponent } from "./components/location/location";
 import { rsvpComponent } from './components/assistance/rsvp';
+import { contactComponent } from './components/contact/contact';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, headerComponent, heroComponent, historyComponent, detailsComponent, locationComponent, rsvpComponent, galleryComponent, faqComponent,footerComponent],
+  imports: [RouterOutlet, headerComponent, heroComponent, historyComponent, detailsComponent, locationComponent, rsvpComponent, galleryComponent, faqComponent, contactComponent, footerComponent],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
