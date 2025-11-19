@@ -1,28 +1,64 @@
-/* HERO SECTION */
-.background-video {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  object-fit: cover;
-  z-index: -1;
-}
-
 .hero {
   height: 100vh;
-  background: linear-gradient(rgba(65, 65, 65, 0.6), rgba(0, 0, 0, 0.7));
-  // background: linear-gradient(rgba(65, 65, 65, 0.6), rgba(19, 19, 19, 0.6)),
-  //             url('https://images.unsplash.com/photo-1519741497674-611481863552?w=1600') center/cover;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
   color: var(--white);
   position: relative;
-  background-attachment: fixed;
+  overflow: hidden;
 }
 
+/* Video de fondo */
+.video-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.video-background video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1s ease-in;
+}
+
+.video-background video.loaded {
+  opacity: 1;
+}
+
+.video-fallback {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.video-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    rgba(39, 39, 39, 0.6),
+    rgba(0, 0, 0, 0.8)
+  );
+  z-index: 1;
+}
+
+/* Contenido */
 .hero-content {
+  position: relative;
+  z-index: 2;
   animation: fadeInUp 1s ease;
+  max-width: 900px;
+  padding: 0 2rem;
 }
 
 .hero h1 {
@@ -30,6 +66,7 @@
   font-size: 4rem;
   margin-bottom: 1rem;
   font-weight: 700;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .hero .date {
@@ -37,13 +74,16 @@
   margin-bottom: 2rem;
   color: var(--primary);
   letter-spacing: 2px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
-.hero p {
+.hero .welcome-message {
   font-size: 1.1rem;
-  max-width: 600px;
+  max-width: 700px;
   margin: 0 auto 2rem;
-  opacity: 0.9;
+  opacity: 0.95;
+  line-height: 1.7;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .btn {
@@ -54,27 +94,35 @@
   text-decoration: none;
   border-radius: 50px;
   font-weight: 600;
-  transition: all 0.3s;
+  transition: all 0.3s ease;
   border: none;
   cursor: pointer;
   font-size: 1rem;
+  box-shadow: 0 4px 15px rgba(196, 163, 90, 0.3);
 }
 
 .btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 10px 25px rgba(196, 163, 90, 0.3);
+  box-shadow: 0 10px 25px rgba(196, 163, 90, 0.4);
+  background: #b39450;
 }
 
-/* COUNTDOWN */
+/* Countdown */
 .countdown {
   display: flex;
   gap: 2rem;
   justify-content: center;
   margin-top: 3rem;
+  flex-wrap: wrap;
 }
 
 .countdown-item {
   text-align: center;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 1rem 1.5rem;
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+  min-width: 90px;
 }
 
 .countdown-item .number {
@@ -82,10 +130,142 @@
   font-weight: 700;
   color: var(--primary);
   font-family: 'Playfair Display', serif;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  line-height: 1;
 }
 
 .countdown-item .label {
   font-size: 0.9rem;
   text-transform: uppercase;
   letter-spacing: 1px;
+  margin-top: 0.5rem;
+  opacity: 0.9;
+}
+
+.wedding-day-message {
+  margin-top: 3rem;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+}
+
+.wedding-day-message h3 {
+  font-size: 2rem;
+  color: var(--primary);
+  font-family: 'Playfair Display', serif;
+}
+
+/* Control de volumen */
+.volume-control {
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 3;
+  background: rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.volume-control:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1);
+}
+
+/* Animaciones */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+  .hero h1 {
+    font-size: 3rem;
+  }
+
+  .hero .date {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 2.5rem;
+  }
+
+  .hero .date {
+    font-size: 1.2rem;
+  }
+
+  .hero .welcome-message {
+    font-size: 1rem;
+  }
+
+  .countdown {
+    gap: 1rem;
+  }
+
+  .countdown-item {
+    min-width: 70px;
+    padding: 0.8rem 1rem;
+  }
+
+  .countdown-item .number {
+    font-size: 2rem;
+  }
+
+  .countdown-item .label {
+    font-size: 0.8rem;
+  }
+
+  .volume-control {
+    bottom: 1rem;
+    right: 1rem;
+    width: 45px;
+    height: 45px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .hero .date {
+    font-size: 1rem;
+  }
+
+  .countdown {
+    gap: 0.5rem;
+  }
+
+  .countdown-item {
+    min-width: 60px;
+    padding: 0.6rem 0.8rem;
+  }
+
+  .countdown-item .number {
+    font-size: 1.5rem;
+  }
+
+  .btn {
+    padding: 0.9rem 2rem;
+    font-size: 0.95rem;
+  }
 }
