@@ -1,23 +1,33 @@
-<header>
+<header [class.scrolled]="isScrolled()">
   <div class="nav-container">
-      <a href="#" class="logo">Diego <span>&</span> Vale</a>
-      <nav>
-          <div class="menu-toggle" id="menuToggle">
-              <span></span>
-              <span></span>
-              <span></span>
-          </div>
-          <ul id="navMenu">
-              <li><a href="#inicio">Inicio</a></li>
-              <li><a href="#historia">Historia</a></li>
-              <li><a href="#detalles">Detalles</a></li>
-              <li><a href="#ubicacion">Ubicación</a></li>
-              <li><a href="#rsvp">RSVP</a></li>
-              <li><a href="#galeria">Galería</a></li>
-              <li><a href="#menu">Menú</a></li>
-              <li><a href="#faq">FAQ</a></li>
-              <li><a href="#contacto">Contacto</a></li>
-          </ul>
-      </nav>
+    <a href="#inicio" class="logo" (click)="scrollToSection($event, '#inicio')">
+      {{ groomName() }} <span>&</span> {{ brideName() }}
+    </a>
+
+    <nav>
+      <div
+        class="menu-toggle"
+        id="menuToggle"
+        [class.active]="isMenuOpen()"
+        (click)="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+
+      <ul
+        id="navMenu"
+        [class.active]="isMenuOpen()">
+        @for (item of navItems(); track trackByHref($index, item)) {
+          <li>
+            <a
+              [href]="item.href"
+              (click)="scrollToSection($event, item.href)">
+              {{ item.label }}
+            </a>
+          </li>
+        }
+      </ul>
+    </nav>
   </div>
 </header>
