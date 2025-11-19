@@ -3,60 +3,28 @@
   <p class="section-subtitle">Información importante sobre nuestra celebración</p>
 
   <div class="event-cards">
-      <div class="event-card">
-          <div class="event-icon">⛪</div>
-          <h3>Ceremonia</h3>
-          <div class="event-details">
-              <div class="detail-item">
-                  <div class="detail-icon">📅</div>
-                  <div>
-                      <strong>Fecha</strong><br>
-                      xx de xxxxx, 2026
-                  </div>
-              </div>
-              <div class="detail-item">
-                  <div class="detail-icon">🕐</div>
-                  <div>
-                      <strong>Hora</strong><br>
-                      xxxx PM
-                  </div>
-              </div>
-              <div class="detail-item">
-                  <div class="detail-icon">📍</div>
-                  <div>
-                      <strong>Lugar</strong><br>
-                      xxxxxxxxxxxx, xxxxxx
-                  </div>
-              </div>
-          </div>
-      </div>
+    @for (event of events(); track trackByTitle($index, event); let i = $index) {
+      <div
+        #eventCard
+        class="event-card"
+        [class.visible]="event.visible"
+        [attr.data-index]="i">
 
-      <div class="event-card">
-          <div class="event-icon">🎉</div>
-          <h3>Recepción</h3>
-          <div class="event-details">
-              <div class="detail-item">
-                  <div class="detail-icon">📅</div>
-                  <div>
-                      <strong>Fecha</strong><br>
-                      xx de xxxxx, 2026
-                  </div>
+        <div class="event-icon">{{ event.icon }}</div>
+        <h3>{{ event.title }}</h3>
+
+        <div class="event-details">
+          @for (detail of event.details; track trackByLabel($index, detail)) {
+            <div class="detail-item">
+              <div class="detail-icon">{{ detail.icon }}</div>
+              <div>
+                <strong>{{ detail.label }}</strong><br>
+                {{ detail.value }}
               </div>
-              <div class="detail-item">
-                  <div class="detail-icon">🕗</div>
-                  <div>
-                      <strong>Hora</strong><br>
-                      xxxx PM
-                  </div>
-              </div>
-              <div class="detail-item">
-                  <div class="detail-icon">📍</div>
-                  <div>
-                      <strong>Lugar</strong><br>
-                      xxxxxxxxxxxx, xxxxxx
-                  </div>
-              </div>
-          </div>
+            </div>
+          }
+        </div>
       </div>
+    }
   </div>
 </section>
