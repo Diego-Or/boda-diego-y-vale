@@ -48,49 +48,6 @@ section {
   font-size: 1.1rem;
 }
 
-
-/* LOCATION */
-.location-content {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 3rem;
-  margin-top: 3rem;
-}
-
-.map-container {
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 5px 20px var(--shadow);
-  height: 400px;
-}
-
-.map-container iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-}
-
-.location-info {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.info-card {
-  background: var(--white);
-  padding: 1.5rem;
-  border-radius: 10px;
-  box-shadow: 0 3px 15px var(--shadow);
-}
-
-.info-card h4 {
-  color: var(--secondary);
-  margin-bottom: 0.5rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
 /* RSVP FORM */
 .rsvp-form {
   max-width: 600px;
