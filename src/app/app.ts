@@ -3,10 +3,11 @@ import { RouterOutlet } from '@angular/router';
 import { headerComponent } from './shared/Nav/header';
 import { footerComponent } from './shared/footer/footer';
 import { heroComponent } from './components/hero/hero';
+import { historyComponent } from './components/history/history';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, headerComponent, heroComponent, footerComponent],
+  imports: [RouterOutlet, headerComponent, heroComponent, historyComponent, footerComponent],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
