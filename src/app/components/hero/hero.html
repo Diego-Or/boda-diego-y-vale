@@ -6,23 +6,30 @@
       <p>Con alegría en nuestros corazones, te invitamos a ser parte del día más especial de nuestras vidas. Celebremos juntos el amor, la familia y el inicio de una nueva aventura.</p>
       <a href="#historia" class="btn">Comenzar a explorar</a>
 
+
       <div class="countdown" id="countdown">
+        @if (distance() > 0) {
           <div class="countdown-item">
-              <div class="number" id="days">0</div>
-              <div class="label">Días</div>
+            <div class="number" id="days">{{ days() }}</div>
+            <div class="label">Días</div>
           </div>
           <div class="countdown-item">
-              <div class="number" id="hours">0</div>
+              <div class="number" id="hours">{{ hours() }}</div>
               <div class="label">Horas</div>
           </div>
           <div class="countdown-item">
-              <div class="number" id="minutes">0</div>
+              <div class="number" id="minutes">{{ minutes() }}</div>
               <div class="label">Minutos</div>
           </div>
           <div class="countdown-item">
-              <div class="number" id="seconds">0</div>
+              <div class="number" id="seconds">{{ seconds() }}</div>
               <div class="label">Segundos</div>
           </div>
+        }
+        @else if (distance() < 1) {
+          <div class="countdown-item"><h3 class="number">¡El gran día ha llegado!</h3></div>
+        }
+
       </div>
   </div>
 </section>
