@@ -3,34 +3,25 @@
   <p class="section-subtitle">Algunos de nuestros momentos favoritos juntos</p>
 
   <div class="gallery-grid">
-      <div class="gallery-item" data-index="0">
-          <img src="https://images.unsplash.com/photo-1606800052052-a08af7148866?w=600" alt="Foto 1">
+    @for (image of images(); track trackByIndex($index, image)) {
+      <div class="gallery-item"
+           [attr.data-index]="image.index"
+           (click)="openLightbox($index)">
+        <img [src]="image.src" [alt]="image.alt">
       </div>
-      <div class="gallery-item" data-index="2">
-          <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=600" alt="Foto 3">
-      </div>
-      <div class="gallery-item" data-index="3">
-          <img src="https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=600" alt="Foto 4">
-      </div>
-      <div class="gallery-item" data-index="4">
-          <img src="https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=600" alt="Foto 5">
-      </div>
-      <div class="gallery-item" data-index="5">
-          <img src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=600" alt="Foto 6">
-      </div>
-      <div class="gallery-item" data-index="8">
-          <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=600" alt="Foto 9">
-      </div>
+    }
   </div>
 </section>
 
 <!-- LIGHTBOX -->
-<div class="lightbox" id="lightbox">
-  <span class="lightbox-close" id="lightboxClose">&times;</span>
-  <span class="lightbox-nav lightbox-prev" id="lightboxPrev">&#10094;</span>
-  <span class="lightbox-nav lightbox-next" id="lightboxNext">&#10095;</span>
-  <div class="lightbox-content">
-      <img id="lightboxImg" src="" alt="">
+@if (isLightboxActive()) {
+  <div class="lightbox" (click)="onBackgroundClick($event)">
+    <span class="lightbox-close" (click)="closeLightbox()">&times;</span>
+    <span class="lightbox-nav lightbox-prev" (click)="showPrevImage()">&#10094;</span>
+    <span class="lightbox-nav lightbox-next" (click)="showNextImage()">&#10095;</span>
+    <div class="lightbox-content">
+      <img [src]="currentImage().src" [alt]="currentImage().alt">
+    </div>
+    <div class="lightbox-counter">{{ counter() }}</div>
   </div>
-  <div class="lightbox-counter" id="lightboxCounter"></div>
-</div>
+}
