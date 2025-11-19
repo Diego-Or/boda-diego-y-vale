@@ -14,76 +14,13 @@
 <app-details />
 
 <!-- UBICACIÓN -->
-
+<app-location />
 
 <!-- RSVP -->
-<section id="rsvp">
-  <h2 class="section-title">Confirma tu Asistencia</h2>
-  <p class="section-subtitle">Por favor confirma antes del xx de xxxxxxxxxx de 2026</p>
-
-  <form class="rsvp-form" id="rsvpForm">
-      <div class="form-group">
-          <label for="nombre">Nombre completo *</label>
-          <input type="text" id="nombre" required placeholder="Ingresa tu nombre completo">
-      </div>
-
-      <div class="form-group">
-          <label for="preferencia">Preferencia alimenticia *</label>
-          <select id="preferencia" required>
-              <option value="">Selecciona una opción</option>
-              <option value="Sin restricciones">Sin restricciones</option>
-              <option value="Vegetariano">Vegetariano</option>
-              <option value="Vegano">Vegano</option>
-              <option value="Sin gluten">Sin gluten</option>
-          </select>
-      </div>
-
-      <div class="form-group checkbox-group">
-          <input type="checkbox" id="alergias">
-          <label for="alergias">Tengo alergias o restricciones adicionales</label>
-      </div>
-
-      <div class="form-group">
-          <label for="mensaje">Mensaje o comentario (opcional)</label>
-          <textarea id="mensaje" rows="4" placeholder="Escribe aquí tus comentarios o especifica alergias..."></textarea>
-      </div>
-
-      <button type="submit" class="submit-btn">Confirmar Asistencia</button>
-      <button type="button" class="submit-btn" id="downloadExcel" style="background: var(--secondary); margin-top: 1rem;">
-          📊 Descargar Lista de Confirmaciones
-      </button>
-      <div class="success-message" id="successMessage">
-          ¡Gracias por confirmar! Nos emociona celebrar contigo 🎉
-      </div>
-  </form>
-</section>
+<app-rsvp />
 
 <!-- GALERÍA -->
-<section id="galeria">
-  <h2 class="section-title">Galería de Momentos</h2>
-  <p class="section-subtitle">Algunos de nuestros momentos favoritos juntos</p>
-
-  <div class="gallery-grid">
-      <div class="gallery-item" data-index="0">
-          <img src="https://images.unsplash.com/photo-1606800052052-a08af7148866?w=600" alt="Foto 1">
-      </div>
-      <div class="gallery-item" data-index="2">
-          <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=600" alt="Foto 3">
-      </div>
-      <div class="gallery-item" data-index="3">
-          <img src="https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=600" alt="Foto 4">
-      </div>
-      <div class="gallery-item" data-index="4">
-          <img src="https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=600" alt="Foto 5">
-      </div>
-      <div class="gallery-item" data-index="5">
-          <img src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=600" alt="Foto 6">
-      </div>
-      <div class="gallery-item" data-index="8">
-          <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=600" alt="Foto 9">
-      </div>
-  </div>
-</section>
+<app-gallery />
 
 <!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox">
