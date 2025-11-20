@@ -1,40 +1,111 @@
 <section id="rsvp">
-  <h2 class="section-title">Confirma tu Asistencia</h2>
-  <p class="section-subtitle">Por favor confirma antes del xx de xxxxxxxxxx de 2026</p>
+  <h2 class="section-title">{{ config().title }}</h2>
+  <p class="section-subtitle">
+    Por favor confirma antes del {{ formattedDeadline() }}
+  </p>
 
-  <form class="rsvp-form" id="rsvpForm">
-      <div class="form-group">
-          <label for="nombre">Nombre completo *</label>
-          <input type="text" id="nombre" required placeholder="Ingresa tu nombre completo">
-      </div>
+  @if (isDeadlinePassed()) {
+    <div class="deadline-alert">
+      <p>⚠️ La fecha límite para confirmaciones ha pasado. Si necesitas confirmar tu asistencia, por favor contáctanos directamente.</p>
+    </div>
+  }
 
-      <div class="form-group">
-          <label for="preferencia">Preferencia alimenticia *</label>
-          <select id="preferencia" required>
-              <option value="">Selecciona una opción</option>
-              <option value="Sin restricciones">Sin restricciones</option>
-              <option value="Vegetariano">Vegetariano</option>
-              <option value="Vegano">Vegano</option>
-              <option value="Sin gluten">Sin gluten</option>
-          </select>
-      </div>
+  <form [formGroup]="rsvpForm" (ngSubmit)="onSubmit()" class="rsvp-form">
 
-      <div class="form-group checkbox-group">
-          <input type="checkbox" id="alergias">
-          <label for="alergias">Tengo alergias o restricciones adicionales</label>
-      </div>
+    <!-- Nombre completo -->
+    <div class="form-group">
+      <label for="nombre">Nombre completo *</label>
+      <input
+        type="text"
+        id="nombre"
+        formControlName="nombre"
+        placeholder="Ingresa tu nombre completo"
+        [class.error]="nombre?.invalid && nombre?.touched">
+      @if (nombre?.invalid && nombre?.touched) {
+        <span class="error-text">
+          @if (nombre?.errors?.['required']) {
+            El nombre es obligatorio
+          }
+          @if (nombre?.errors?.['minlength']) {
+            El nombre debe tener al menos 3 caracteres
+          }
+        </span>
+      }
+    </div>
 
-      <div class="form-group">
-          <label for="mensaje">Mensaje o comentario (opcional)</label>
-          <textarea id="mensaje" rows="4" placeholder="Escribe aquí tus comentarios o especifica alergias..."></textarea>
-      </div>
+    <!-- Documento de identidad -->
+    <div class="form-group">
+      <label for="documento">Documento de identidad *</label>
+      <input
+        type="text"
+        id="documento"
+        formControlName="documento"
+        placeholder="Ingresa tu número de documento (solo números)"
+        [class.error]="documento?.invalid && documento?.touched">
+      @if (documento?.invalid && documento?.touched) {
+        <span class="error-text">
+          @if (documento?.errors?.['required']) {
+            El documento es obligatorio
+          }
+          @if (documento?.errors?.['pattern']) {
+            El documento debe contener solo números
+          }
+        </span>
+      }
+    </div>
 
-      <button type="submit" class="submit-btn">Confirmar Asistencia</button>
-      <button type="button" class="submit-btn" id="downloadExcel" style="background: var(--secondary); margin-top: 1rem;">
-          📊 Descargar Lista de Confirmaciones
-      </button>
-      <div class="success-message" id="successMessage">
-          ¡Gracias por confirmar! Nos emociona celebrar contigo 🎉
+    <!-- Checkbox de alergias -->
+    <div class="form-group checkbox-group">
+      <input
+        type="checkbox"
+        id="alergias"
+        formControlName="alergias">
+      <label for="alergias">Tengo alergias o restricciones adicionales</label>
+    </div>
+
+    <!-- Mensaje o comentario -->
+    <div class="form-group">
+      <label for="mensaje">Mensaje o comentario (opcional)</label>
+      <textarea
+        id="mensaje"
+        formControlName="mensaje"
+        rows="4"
+        placeholder="Escribe aquí tus comentarios o especifica alergias..."></textarea>
+    </div>
+
+    <!-- Mensaje de error general -->
+    @if (errorMessage()) {
+      <div class="error-message">
+        {{ errorMessage() }}
       </div>
+    }
+
+    <!-- Botón de envío -->
+    <button
+      type="submit"
+      class="submit-btn"
+      [class.loading]="isLoading()"
+      [disabled]="isLoading() || isDeadlinePassed()">
+      @if (isLoading()) {
+        Guardando...
+      } @else {
+        Confirmar Asistencia
+      }
+    </button>
+
+    <!-- Botón de descarga -->
+    <button
+      type="button"
+      class="submit-btn secondary-btn"
+      (click)="descargarExcel()">
+      📊 Descargar Lista de Confirmaciones ({{ confirmacionesCount() }})
+    </button>
+
+    <!-- Mensaje de éxito -->
+    @if (showSuccessMessage()) {
+      <div class="success-message">
+        ¡Gracias por confirmar! Nos emociona celebrar contigo 🎉
+      </div>
+    }
   </form>
 </section>
