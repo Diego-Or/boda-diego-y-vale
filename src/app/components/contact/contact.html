@@ -3,36 +3,52 @@
   <p class="section-subtitle">¿Tienes preguntas? Contáctanos</p>
 
   <div class="contact-content">
-      <div class="contact-card">
-          <div class="contact-icon">👰</div>
-          <h3>Vale Ospina</h3>
-          <p>La Novia</p>
-          <p>📱 +57 3157405057</p>
-          <div class="social-links">
-              <a href="#" title="Instagram">📷</a>
-              <a href="#" title="Facebook">📘</a>
-              <a href="#" title="WhatsApp">💬</a>
-          </div>
+
+    <!-- Tarjeta de la Novia -->
+    <div class="contact-card">
+      <div class="contact-icon">{{ bride().icon }}</div>
+
+      <div class="contact-name" (click)="instaLink(bride().igLink)" aria-label="Nombre de la Novia y Enlace a Instagram">
+        <svg width="28" height="28"><use xlink:href="./sprite.svg#instagram" /></svg>
+        <h3>{{ bride().name }}</h3>
       </div>
 
-      <div class="contact-card">
-          <div class="contact-icon">🤵</div>
-          <h3>Diego Ortiz</h3>
-          <p>El Novio</p>
-          <p>📱 +57 3213101495</p>
-          <div class="social-links">
-              <a href="#" title="Instagram">📷</a>
-              <a href="#" title="Facebook">📘</a>
-              <a href="#" title="WhatsApp">💬</a>
-          </div>
+      <p class="role">{{ bride().role }}</p>
+
+      <div class="contact-number" (click)="whatsappLink(bride().waLink)" aria-label="Número de Contacto y Enlace para escribir a WhatsApp">
+        <svg width="28" height="28"><use xlink:href="./sprite.svg#whatsapp" /></svg>
+        {{ bride().phone }}
+      </div>
+    </div>
+
+    <!-- Tarjeta del Novio -->
+    <div class="contact-card">
+      <div class="contact-icon">{{ groom().icon }}</div>
+
+      <div class="contact-name" (click)="instaLink(groom().igLink)" aria-label="Nombre de la Novia y Enlace a Instagram">
+        <svg width="28" height="28"><use xlink:href="./sprite.svg#instagram" /></svg>
+        <h3>{{ groom().name }}</h3>
       </div>
 
-      <div class="contact-card">
-          <div class="contact-icon">💝</div>
-          <h3>Lista de Regalos</h3>
-          <p>- Lluvia de Sobres</p>
-          <p>- Excel con lista de regalos</p>
-          <a href="#" class="btn" style="margin-top: 1rem;">Ver listas</a>
+      <p class="role">{{ groom().role }}</p>
+
+      <div class="contact-number" (click)="whatsappLink(groom().waLink)" aria-label="Número de Contacto y Enlace para escribir a WhatsApp">
+        <svg width="28" height="28"><use xlink:href="./sprite.svg#whatsapp" /></svg>
+        {{ groom().phone }}
       </div>
+    </div>
+
+    <!-- Tarjeta de Lista de Regalos -->
+    <div class="contact-card gift-card">
+      <div class="contact-icon">{{ giftRegistry().icon }}</div>
+      <h3>{{ giftRegistry().title }}</h3>
+
+      <div class="gift-items" (click)="copyPhone('3213101495')">
+        @for (item of giftRegistry().items; track trackByItem($index, item)) {
+          <p>- {{ item }}</p>
+        }
+      </div>
+    </div>
+
   </div>
 </section>
