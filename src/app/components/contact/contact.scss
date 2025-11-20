@@ -1,3 +1,7 @@
+section {
+  padding-bottom:5rem;
+}
+
 .contact-content {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
@@ -185,14 +189,6 @@
 }
 
 @media (max-width: 768px) {
-  #contacto {
-    padding: 4rem 5%;
-  }
-
-  .section-title {
-    font-size: 2rem;
-  }
-
   .contact-content {
     grid-template-columns: 1fr;
     gap: 1.5rem;

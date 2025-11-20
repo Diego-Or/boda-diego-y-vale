@@ -68,7 +68,6 @@
   }
 
 
-
   // Icono de flecha
   .faq-item.active .faq-icon {
     transform: rotate(180deg);
@@ -134,14 +133,6 @@
 
 /* RESPONSIVE */
 @media (max-width: 768px) {
-  #faq {
-    padding: 4rem 5%;
-  }
-
-  .section-title {
-    font-size: 2rem;
-  }
-
   .faq-question {
     padding: 1.2rem;
     font-size: 0.95rem;

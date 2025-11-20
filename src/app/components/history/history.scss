@@ -1,24 +1,3 @@
-#historia {
-  padding: 6rem 5%;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-.section-title {
-  text-align: center;
-  font-family: 'Playfair Display', serif;
-  font-size: 3rem;
-  margin-bottom: 1rem;
-  color: var(--secondary);
-}
-
-.section-subtitle {
-  text-align: center;
-  color: var(--primary);
-  margin-bottom: 4rem;
-  font-size: 1.1rem;
-}
-
 .timeline {
   position: relative;
   max-width: 1000px;
@@ -143,14 +122,6 @@
 }
 
 @media (max-width: 480px) {
-  #historia {
-    padding: 4rem 5%;
-  }
-
-  .section-title {
-    font-size: 2rem;
-  }
-
   .timeline-year {
     font-size: 1.2rem;
   }

@@ -1,24 +1,3 @@
-#detalles {
-  padding: 6rem 5%;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-.section-title {
-  text-align: center;
-  font-family: 'Playfair Display', serif;
-  font-size: 3rem;
-  margin-bottom: 1rem;
-  color: var(--secondary);
-}
-
-.section-subtitle {
-  text-align: center;
-  color: var(--primary);
-  margin-bottom: 4rem;
-  font-size: 1.1rem;
-}
-
 .event-cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -137,14 +116,6 @@
 
 /* RESPONSIVE */
 @media (max-width: 768px) {
-  #detalles {
-    padding: 4rem 5%;
-  }
-
-  .section-title {
-    font-size: 2rem;
-  }
-
   .event-cards {
     grid-template-columns: 1fr;
     gap: 1.5rem;

@@ -5,48 +5,38 @@
   <div class="location-content">
     <!-- Mapa -->
     <div class="map-container">
-      <iframe
-        [src]="safeMapUrl()"
-        style="border:0;"
-        allowfullscreen=""
-        loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade">
-      </iframe>
+      <iframe [src]="safeMapUrl()" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" aria-label="Mapa de la ubicación del evento"></iframe>
     </div>
 
     <!-- Información de ubicación -->
     <div class="location-info">
-      @for (card of infoCards(); track card.type) {
-        <div class="info-card">
-          <h4>{{ card.icon }} {{ card.title }}</h4>
+      <div class="info-card">
+        <div class="card-text">
+          <h3>📍 Dirección Completa</h3>
 
-          @if (card.type === 'address') {
-            <!-- Dirección -->
-            @for (line of getContentAsArray(card.content); track trackByIndex($index)) {
-              <p>{{ line }}</p>
-            }
-            <a
-              href="#"
-              (click)="openGoogleMaps(); $event.preventDefault()"
-              class="btn"
-              style="margin-top: 1rem;">
-              Abrir en Google Maps
-            </a>
-          } @else if (card.type === 'transport') {
-            <!-- Transporte -->
-            @for (line of getContentAsArray(card.content); track trackByIndex($index)) {
-              <p [innerHTML]="line"></p>
-            }
-          } @else if (card.type === 'directions') {
-            <!-- Indicaciones -->
-            <ol style="text-align: left; padding-left: 1.5rem;">
-              @for (direction of getContentAsArray(card.content); track trackByIndex($index)) {
-                <li>{{ direction }}</li>
-              }
-            </ol>
-          }
+          <p>xxxxxxxxx</p>
+          <p>xxxxxxxxx</p>
+          <p>Zipaquirá, Cundinamarca</p>
         </div>
-      }
+
+        <a
+          href="#"
+          (click)="openGoogleMaps(); $event.preventDefault()"
+          class="btn"
+          style="margin-top: 1rem;">
+          Abrir en Google Maps
+        </a>
+      </div>
+      <div class="info-card">
+        <h3>🚗 Parking</h3>
+
+        <p>El establecimiento dispone de parqueadero privado y vigilado para tu comodidad.</p>
+        <ul>
+          <li>Capacidad para: xx Autos</li>
+          <li>Cobro por hora: $x.xxx</li>
+          <li>Más opciones de parqueadero cercanos</li>
+        </ul>
+      </div>
     </div>
   </div>
 </section>
