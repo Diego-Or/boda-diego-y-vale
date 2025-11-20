@@ -1,6 +1,8 @@
+// src/app/components/rsvp/rsvp.component.ts
 import { Component, signal, computed, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FirebaseService } from '../../services/firebase.service';
 
 interface RSVPData {
   fecha: string;
@@ -16,17 +18,17 @@ interface RSVPConfig {
   subtitle: string;
 }
 
-// Importar la librería XLSX (debe estar en el index.html o instalada)
-import * as XLSX from 'xlsx';
+// Importar la librería XLSX (debe estar en el index.html)
+declare const XLSX: any;
 
 @Component({
   selector: 'app-rsvp',
+  standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: 'rsvp.html',
-  styleUrl: 'rsvp.scss'
+  templateUrl: './rsvp.html',
+  styleUrls: ['./rsvp.scss']
 })
-
-export class rsvpComponent implements OnInit{
+export class rsvpComponent implements OnInit {
   // Señales
   confirmaciones = signal<RSVPData[]>([]);
   isLoading = signal<boolean>(false);
@@ -58,7 +60,10 @@ export class rsvpComponent implements OnInit{
   // Reactive Form
   rsvpForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private firebaseService: FirebaseService
+  ) {
     this.rsvpForm = this.fb.group({
       nombre: ['', [Validators.required, Validators.minLength(3)]],
       documento: ['', [Validators.required, Validators.pattern(/^[0-9]+$/)]],
@@ -71,34 +76,45 @@ export class rsvpComponent implements OnInit{
     await this.cargarConfirmaciones();
   }
 
-  // Cargar confirmaciones desde localStorage
+  // Cargar confirmaciones desde Firebase
   async cargarConfirmaciones(): Promise<void> {
     try {
-      const data = localStorage.getItem('confirmaciones-boda');
-      if (data) {
-        this.confirmaciones.set(JSON.parse(data));
-        console.log('Confirmaciones cargadas:', this.confirmaciones().length);
-      }
+      const data = await this.firebaseService.obtenerConfirmaciones();
+      // Convertir formato de Firebase a RSVPData
+      const confirmaciones: RSVPData[] = data.map(conf => ({
+        fecha: conf.fecha.toLocaleString('es-CO'),
+        nombre: conf.nombre,
+        documento: conf.documento,
+        tieneAlergias: conf.tieneAlergias,
+        mensaje: conf.mensaje
+      }));
+      this.confirmaciones.set(confirmaciones);
+      console.log('Confirmaciones cargadas desde Firebase:', confirmaciones.length);
     } catch (error) {
-      console.log('No hay confirmaciones previas:', error);
+      console.error('Error al cargar confirmaciones:', error);
       this.confirmaciones.set([]);
     }
   }
 
-  // Guardar confirmaciones en localStorage
-  async guardarConfirmaciones(): Promise<void> {
-    try {
-      localStorage.setItem('confirmaciones-boda', JSON.stringify(this.confirmaciones()));
-      console.log('Confirmaciones guardadas exitosamente');
-    } catch (error) {
-      console.error('Error al guardar confirmaciones:', error);
-      throw error;
+  // Guardar confirmación en Firebase
+  async guardarConfirmacion(datos: {
+    nombre: string;
+    documento: string;
+    tieneAlergias: boolean;
+    mensaje: string;
+  }): Promise<boolean> {
+    const success = await this.firebaseService.guardarConfirmacion(datos);
+
+    if (!success) {
+      throw new Error('No se pudo guardar en Firebase');
     }
+
+    return true;
   }
 
   // Validar si el documento ya existe
-  documentoYaExiste(documento: string): boolean {
-    return this.confirmaciones().some(conf => conf.documento === documento);
+  async documentoYaExiste(documento: string): Promise<boolean> {
+    return await this.firebaseService.documentoExiste(documento);
   }
 
   // Submit del formulario
@@ -111,7 +127,8 @@ export class rsvpComponent implements OnInit{
     const formValue = this.rsvpForm.value;
 
     // Validar documento duplicado
-    if (this.documentoYaExiste(formValue.documento)) {
+    const existe = await this.documentoYaExiste(formValue.documento);
+    if (existe) {
       this.errorMessage.set('Este documento ya está registrado. Si necesitas modificar tu confirmación, contáctanos.');
       setTimeout(() => this.errorMessage.set(''), 5000);
       return;
@@ -121,20 +138,16 @@ export class rsvpComponent implements OnInit{
     this.errorMessage.set('');
 
     try {
-      // Crear objeto de confirmación
-      const confirmacion: RSVPData = {
-        fecha: new Date().toLocaleString('es-CO'),
+      // Guardar directamente en Firebase
+      await this.guardarConfirmacion({
         nombre: formValue.nombre.trim(),
         documento: formValue.documento.trim(),
         tieneAlergias: formValue.alergias,
         mensaje: formValue.mensaje.trim() || 'Sin mensaje'
-      };
+      });
 
-      // Agregar a la lista
-      this.confirmaciones.update(current => [...current, confirmacion]);
-
-      // Guardar en storage
-      await this.guardarConfirmaciones();
+      // Recargar confirmaciones para actualizar el contador
+      await this.cargarConfirmaciones();
 
       // Mostrar mensaje de éxito
       this.showSuccessMessage.set(true);
@@ -148,30 +161,22 @@ export class rsvpComponent implements OnInit{
     } catch (error) {
       console.error('Error al guardar confirmación:', error);
       this.errorMessage.set('Hubo un error al guardar tu confirmación. Por favor intenta de nuevo.');
+
     } finally {
       this.isLoading.set(false);
     }
   }
 
-  // Descargar Excel
+  // Descargar Excel con datos de Firebase
   async descargarExcel(): Promise<void> {
-    await this.cargarConfirmaciones(); // Recargar datos más recientes
-
     if (this.confirmaciones().length === 0) {
       alert('No hay confirmaciones registradas aún.');
       return;
     }
 
     try {
-      // Preparar datos para Excel
-      const datosExcel = this.confirmaciones().map((conf, index) => ({
-        'No.': index + 1,
-        'Fecha de Confirmación': conf.fecha,
-        'Nombre Completo': conf.nombre,
-        'Documento de Identidad': conf.documento,
-        '¿Tiene Alergias?': conf.tieneAlergias ? 'Sí' : 'No',
-        'Mensaje/Comentarios': conf.mensaje
-      }));
+      // Obtener datos formateados desde Firebase
+      const datosExcel = await this.firebaseService.obtenerConfirmacionesParaExcel();
 
       // Crear libro de Excel
       const wb = XLSX.utils.book_new();
@@ -193,7 +198,7 @@ export class rsvpComponent implements OnInit{
       const fecha = new Date().toISOString().split('T')[0];
       XLSX.writeFile(wb, `Confirmaciones_Boda_${fecha}.xlsx`);
 
-      alert(`Se descargó el archivo con ${this.confirmaciones().length} confirmación(es).`);
+      alert(`Se descargó el archivo con ${datosExcel.length} confirmación(es).`);
     } catch (error) {
       console.error('Error al generar Excel:', error);
       alert('Error al generar el archivo Excel. Verifica que la librería XLSX esté cargada.');

@@ -14,7 +14,7 @@
 
     <!-- Nombre completo -->
     <div class="form-group">
-      <label for="nombre">Nombre completo *</label>
+      <label for="nombre">Nombre completo del invitado*</label>
       <input
         type="text"
         id="nombre"
@@ -94,12 +94,12 @@
     </button>
 
     <!-- Botón de descarga -->
-    <button
+    <!-- <button
       type="button"
       class="submit-btn secondary-btn"
       (click)="descargarExcel()">
       📊 Descargar Lista de Confirmaciones ({{ confirmacionesCount() }})
-    </button>
+    </button> -->
 
     <!-- Mensaje de éxito -->
     @if (showSuccessMessage()) {
