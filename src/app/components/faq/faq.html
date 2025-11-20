@@ -1,18 +1,13 @@
-<!-- src/app/components/faq/faq.component.html -->
 <section id="faq">
-  <h2 class="section-title">{{ title() }}</h2>
-  <p class="section-subtitle">{{ subtitle() }}</p>
+  <h2 class="section-title">Preguntas Frecuentes</h2>
+  <p class="section-subtitle">Todo lo que necesitas saber</p>
 
   <div class="faq-container">
     @for (item of faqItems(); track trackByQuestion($index, item); let i = $index) {
-      <div
-        class="faq-item"
-        [class.active]="item.isOpen">
+      <div class="faq-item" [class.active]="item.isOpen">
 
         <!-- Pregunta -->
-        <div
-          class="faq-question"
-          (click)="toggleFAQ(i)">
+        <div class="faq-question" (click)="toggleFAQ(i)">
           <span>{{ item.question }}</span>
           <span class="faq-icon">▼</span>
         </div>

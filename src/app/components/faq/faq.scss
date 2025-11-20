@@ -1,128 +1,113 @@
-/* src/app/components/faq/faq.component.css */
-
-#faq {
-  padding: 6rem 5%;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-.section-title {
-  text-align: center;
-  font-family: 'Playfair Display', serif;
-  font-size: 3rem;
-  margin-bottom: 1rem;
-  color: var(--secondary);
-}
-
-.section-subtitle {
-  text-align: center;
-  color: var(--primary);
-  margin-bottom: 4rem;
-  font-size: 1.1rem;
-}
-
 .faq-container {
   max-width: 800px;
   margin: 3rem auto;
+
+
+  // Div de pregunta
+  .faq-item {
+    background: var(--white);
+    margin-bottom: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 3px 15px var(--shadow);
+    overflow: hidden;
+    transition: all 0.3s ease;
+
+    &:hover {
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.12);
+      transform: translateY(-2px);
+    }
+  }
+
+  // Pregunta
+  .faq-question {
+    padding: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    color: var(--secondary);
+    transition: all 0.3s ease;
+    user-select: none;
+
+    &:hover {
+      background: var(--light);
+    }
+    .faq-icon {
+      font-size: 1.2rem;
+      transition: transform 0.3s ease;
+      color: var(--primary);
+      flex-shrink: 0;
+    }
+    .faq-question span:first-child {
+      flex: 1;
+      padding-right: 1rem;
+    }
+  }
+
+
+  // Respuesta
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.4s ease;
+    padding: 0 1.5rem;
+
+    p {
+      color: var(--dark);
+      line-height: 1.7;
+      margin: 0;
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: opacity 0.3s ease 0.1s, transform 0.3s ease 0.1s;
+    }
+  }
+  .faq-item.active .faq-answer {
+    max-height: 500px;
+    padding: 0 1.5rem 1.5rem;
+  }
+
+
+
+  // Icono de flecha
+  .faq-item.active .faq-icon {
+    transform: rotate(180deg);
+  }
+
+  .faq-item.active .faq-answer p {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.faq-item {
-  background: var(--white);
-  margin-bottom: 1rem;
-  border-radius: 10px;
-  box-shadow: 0 3px 15px var(--shadow);
-  overflow: hidden;
-  transition: all 0.3s ease;
-}
 
-.faq-item:hover {
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.12);
-  transform: translateY(-2px);
-}
 
-.faq-question {
-  padding: 1.5rem;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-weight: 600;
-  color: var(--secondary);
-  transition: all 0.3s ease;
-  user-select: none;
-}
-
-.faq-question:hover {
-  background: var(--light);
-}
-
-.faq-question span:first-child {
-  flex: 1;
-  padding-right: 1rem;
-}
-
-.faq-icon {
-  font-size: 1.2rem;
-  transition: transform 0.3s ease;
-  color: var(--primary);
-  flex-shrink: 0;
-}
-
-.faq-item.active .faq-icon {
-  transform: rotate(180deg);
-}
-
-.faq-answer {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.4s ease, padding 0.4s ease;
-  padding: 0 1.5rem;
-}
-
-.faq-item.active .faq-answer {
-  max-height: 500px;
-  padding: 0 1.5rem 1.5rem;
-}
-
-.faq-answer p {
-  color: var(--dark);
-  line-height: 1.7;
-  margin: 0;
-  opacity: 0;
-  transform: translateY(-10px);
-  transition: opacity 0.3s ease 0.1s, transform 0.3s ease 0.1s;
-}
-
-.faq-item.active .faq-answer p {
-  opacity: 1;
-  transform: translateY(0);
-}
 
 /* Botones de control (opcional) */
-.faq-controls {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  margin-top: 2rem;
-}
+// .faq-controls {
+//   display: flex;
+//   justify-content: center;
+//   gap: 1rem;
+//   margin-top: 2rem;
+// }
 
-.btn-control {
-  padding: 0.8rem 2rem;
-  background: var(--primary);
-  color: var(--white);
-  border: none;
-  border-radius: 50px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-family: 'Poppins', sans-serif;
-}
+// .btn-control {
+//   padding: 0.8rem 2rem;
+//   background: var(--primary);
+//   color: var(--white);
+//   border: none;
+//   border-radius: 50px;
+//   font-weight: 600;
+//   cursor: pointer;
+//   transition: all 0.3s ease;
+//   font-family: 'Poppins', sans-serif;
+// }
 
-.btn-control:hover {
-  background: #b39450;
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(196, 163, 90, 0.3);
-}
+// .btn-control:hover {
+//   background: #b39450;
+//   transform: translateY(-2px);
+//   box-shadow: 0 5px 15px rgba(196, 163, 90, 0.3);
+// }
 
 /* Animación de entrada */
 @keyframes fadeInUp {
