@@ -3,20 +3,15 @@
   <p class="section-subtitle">Cómo llegar a nuestro evento</p>
 
   <div class="location-content">
-    <!-- Mapa -->
-    <div class="map-container">
-      <iframe [src]="safeMapUrl()" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" aria-label="Mapa de la ubicación del evento"></iframe>
-    </div>
-
     <!-- Información de ubicación -->
     <div class="location-info">
       <div class="info-card">
         <div class="card-text">
-          <h3>📍 Dirección Completa</h3>
+          <h3>📍 Detalles del evento</h3>
 
-          <p>xxxxxxxxx</p>
-          <p>xxxxxxxxx</p>
-          <p>Zipaquirá, Cundinamarca</p>
+          <p><strong>Fecha:</strong> xx de xx de 2026</p>
+          <p><strong>Hora:</strong> 03:00 p.m.</p>
+          <p><strong>Dirección:</strong> Calle 1 # 9-79, Salario Restaurante - Zipaquirá, Cundinamarca</p>
         </div>
 
         <a
@@ -38,5 +33,12 @@
         </ul>
       </div>
     </div>
+
+    <!-- Mapa -->
+    <div class="map-container">
+      <iframe [src]="safeMapUrl()" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" aria-label="Mapa de la ubicación del evento"></iframe>
+    </div>
+
+
   </div>
 </section>
