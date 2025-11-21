@@ -7,15 +7,20 @@ import { FirebaseService } from '../../services/firebase.service';
 interface RSVPData {
   fecha: string;
   nombre: string;
-  documento: string;
-  tieneAlergias: boolean;
-  mensaje: string;
+  celular: string;
+  plato: string;
 }
 
 interface RSVPConfig {
   deadline: Date;
   title: string;
   subtitle: string;
+}
+
+interface PlatoOption {
+  value: string;
+  label: string;
+  description: string;
 }
 
 // Importar la librería XLSX (debe estar en el index.html)
@@ -39,8 +44,27 @@ export class rsvpComponent implements OnInit {
   config = signal<RSVPConfig>({
     deadline: new Date('2026-05-15'),
     title: 'Confirma tu Asistencia',
-    subtitle: 'Por favor confirma antes del xx de xxxxxxxxxx de 2026'
+    subtitle: 'Por favor confirma antes del 15 de mayo de 2026'
   });
+
+  // Opciones de platos
+  platosDisponibles = signal<PlatoOption[]>([
+    {
+      value: 'plato1',
+      label: 'Plato 1: Lomo de Res',
+      description: 'Lomo de res al vino tinto con papas gratinadas y vegetales asados'
+    },
+    {
+      value: 'plato2',
+      label: 'Plato 2: Salmón',
+      description: 'Salmón a la parrilla con salsa de maracuyá, arroz de coco y espárragos'
+    },
+    {
+      value: 'plato3',
+      label: 'Plato 3: Pollo',
+      description: 'Pechuga de pollo rellena de espinacas y queso con puré de papa y ensalada'
+    }
+  ]);
 
   // Computed signals
   confirmacionesCount = computed(() => this.confirmaciones().length);
@@ -53,9 +77,7 @@ export class rsvpComponent implements OnInit {
     });
   });
 
-  isDeadlinePassed = computed(() => {
-    return new Date() > this.config().deadline;
-  });
+  isDeadlinePassed = computed(() => new Date() > this.config().deadline);
 
   // Reactive Form
   rsvpForm: FormGroup;
@@ -66,9 +88,13 @@ export class rsvpComponent implements OnInit {
   ) {
     this.rsvpForm = this.fb.group({
       nombre: ['', [Validators.required, Validators.minLength(3)]],
-      documento: ['', [Validators.required, Validators.pattern(/^[0-9]+$/)]],
-      alergias: [false],
-      mensaje: ['']
+      celular: ['', [
+        Validators.required,
+        Validators.pattern(/^[0-9]{10}$/),
+        Validators.minLength(10),
+        Validators.maxLength(10)
+      ]],
+      plato: ['', Validators.required]
     });
   }
 
@@ -80,13 +106,14 @@ export class rsvpComponent implements OnInit {
   async cargarConfirmaciones(): Promise<void> {
     try {
       const data = await this.firebaseService.obtenerConfirmaciones();
+      console.log('buenas');
+
       // Convertir formato de Firebase a RSVPData
       const confirmaciones: RSVPData[] = data.map(conf => ({
         fecha: conf.fecha.toLocaleString('es-CO'),
         nombre: conf.nombre,
-        documento: conf.documento,
-        tieneAlergias: conf.tieneAlergias,
-        mensaje: conf.mensaje
+        celular: conf.celular,
+        plato: conf.plato
       }));
       this.confirmaciones.set(confirmaciones);
       console.log('Confirmaciones cargadas desde Firebase:', confirmaciones.length);
@@ -99,9 +126,8 @@ export class rsvpComponent implements OnInit {
   // Guardar confirmación en Firebase
   async guardarConfirmacion(datos: {
     nombre: string;
-    documento: string;
-    tieneAlergias: boolean;
-    mensaje: string;
+    celular: string;
+    plato: string;
   }): Promise<boolean> {
     const success = await this.firebaseService.guardarConfirmacion(datos);
 
@@ -112,9 +138,9 @@ export class rsvpComponent implements OnInit {
     return true;
   }
 
-  // Validar si el documento ya existe
-  async documentoYaExiste(documento: string): Promise<boolean> {
-    return await this.firebaseService.documentoExiste(documento);
+  // Validar si el celular ya existe
+  async celularYaExiste(celular: string): Promise<boolean> {
+    return await this.firebaseService.celularExiste(celular);
   }
 
   // Submit del formulario
@@ -126,10 +152,10 @@ export class rsvpComponent implements OnInit {
 
     const formValue = this.rsvpForm.value;
 
-    // Validar documento duplicado
-    const existe = await this.documentoYaExiste(formValue.documento);
+    // Validar celular duplicado
+    const existe = await this.celularYaExiste(formValue.celular);
     if (existe) {
-      this.errorMessage.set('Este documento ya está registrado. Si necesitas modificar tu confirmación, contáctanos.');
+      this.errorMessage.set('Este número de celular ya está registrado. Si necesitas modificar tu confirmación, contáctanos.');
       setTimeout(() => this.errorMessage.set(''), 5000);
       return;
     }
@@ -141,9 +167,8 @@ export class rsvpComponent implements OnInit {
       // Guardar directamente en Firebase
       await this.guardarConfirmacion({
         nombre: formValue.nombre.trim(),
-        documento: formValue.documento.trim(),
-        tieneAlergias: formValue.alergias,
-        mensaje: formValue.mensaje.trim() || 'Sin mensaje'
+        celular: formValue.celular.trim(),
+        plato: formValue.plato
       });
 
       // Recargar confirmaciones para actualizar el contador
@@ -187,9 +212,8 @@ export class rsvpComponent implements OnInit {
         { wch: 5 },   // No.
         { wch: 20 },  // Fecha
         { wch: 30 },  // Nombre
-        { wch: 20 },  // Documento
-        { wch: 15 },  // Alergias
-        { wch: 50 }   // Mensaje
+        { wch: 15 },  // Celular
+        { wch: 50 }   // Plato
       ];
 
       XLSX.utils.book_append_sheet(wb, ws, 'Confirmaciones');
@@ -205,6 +229,12 @@ export class rsvpComponent implements OnInit {
     }
   }
 
+  // Obtener descripción del plato seleccionado
+  getDescripcionPlato(platoValue: string): string {
+    const plato = this.platosDisponibles().find(p => p.value === platoValue);
+    return plato?.description || '';
+  }
+
   // Helper para marcar todos los campos como touched
   private markFormGroupTouched(formGroup: FormGroup): void {
     Object.keys(formGroup.controls).forEach(key => {
@@ -218,16 +248,12 @@ export class rsvpComponent implements OnInit {
     return this.rsvpForm.get('nombre');
   }
 
-  get documento() {
-    return this.rsvpForm.get('documento');
+  get celular() {
+    return this.rsvpForm.get('celular');
   }
 
-  get alergias() {
-    return this.rsvpForm.get('alergias');
-  }
-
-  get mensaje() {
-    return this.rsvpForm.get('mensaje');
+  get plato() {
+    return this.rsvpForm.get('plato');
   }
 
   // Actualizar configuración
@@ -236,5 +262,14 @@ export class rsvpComponent implements OnInit {
       ...current,
       ...newConfig
     }));
+  }
+
+  // Formatear número de celular mientras se escribe
+  formatearCelular(event: any): void {
+    let value = event.target.value.replace(/\D/g, '');
+    if (value.length > 10) {
+      value = value.substring(0, 10);
+    }
+    this.rsvpForm.patchValue({ celular: value }, { emitEvent: false });
   }
 }

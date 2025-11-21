@@ -1,14 +1,13 @@
+// src/app/services/firebase.service.ts
 import { Injectable, signal } from '@angular/core';
 import { initializeApp, FirebaseApp } from 'firebase/app';
 import { getFirestore, Firestore, collection, addDoc, getDocs, query, orderBy, where, Timestamp } from 'firebase/firestore';
 
 export interface ConfirmacionFirebase {
-  id?: string;
   fecha: Date;
   nombre: string;
-  documento: string;
-  tieneAlergias: boolean;
-  mensaje: string;
+  celular: string;
+  plato: string;
 }
 
 @Injectable({
@@ -39,14 +38,11 @@ export class FirebaseService {
     console.log('🔥 Firebase inicializado correctamente');
   }
 
-  /**
-   * Guardar una nueva confirmación en Firestore
-   */
+  /* Guardar una nueva confirmación en Firestore */
   async guardarConfirmacion(datos: {
     nombre: string;
-    documento: string;
-    tieneAlergias: boolean;
-    mensaje: string;
+    celular: string;
+    plato: string;
   }): Promise<boolean> {
     this.isLoading.set(true);
     this.error.set('');
@@ -55,9 +51,8 @@ export class FirebaseService {
       const confirmacion = {
         fecha: Timestamp.now(),
         nombre: datos.nombre.trim(),
-        documento: datos.documento.trim(),
-        tieneAlergias: datos.tieneAlergias,
-        mensaje: datos.mensaje.trim() || 'Sin mensaje'
+        celular: datos.celular.trim(),
+        plato: datos.plato
       };
 
       const docRef = await addDoc(collection(this.db, 'confirmaciones'), confirmacion);
@@ -75,9 +70,7 @@ export class FirebaseService {
     }
   }
 
-  /**
-   * Obtener todas las confirmaciones ordenadas por fecha
-   */
+  /* Obtener todas las confirmaciones ordenadas por fecha */
   async obtenerConfirmaciones(): Promise<ConfirmacionFirebase[]> {
     this.isLoading.set(true);
     this.error.set('');
@@ -93,12 +86,10 @@ export class FirebaseService {
       const confirmaciones: ConfirmacionFirebase[] = querySnapshot.docs.map(doc => {
         const data = doc.data();
         return {
-          id: doc.id,
           fecha: data['fecha'].toDate(),
           nombre: data['nombre'],
-          documento: data['documento'],
-          tieneAlergias: data['tieneAlergias'],
-          mensaje: data['mensaje']
+          celular: data['celular'],
+          plato: data['plato']
         };
       });
 
@@ -115,70 +106,71 @@ export class FirebaseService {
     }
   }
 
-  /**
-   * Verificar si un documento ya existe
-   */
-  async documentoExiste(documento: string): Promise<boolean> {
+  /* Verificar si un celular ya existe */
+  async celularExiste(celular: string): Promise<boolean> {
     try {
       const q = query(
         collection(this.db, 'confirmaciones'),
-        where('documento', '==', documento.trim())
+        where('celular', '==', celular.trim())
       );
 
       const querySnapshot = await getDocs(q);
       return !querySnapshot.empty;
 
     } catch (error) {
-      console.error('❌ Error al verificar documento:', error);
+      console.error('❌ Error al verificar celular:', error);
       return false;
     }
   }
 
-  /**
-   * Obtener estadísticas
-   */
+  /* Obtener estadísticas */
   async obtenerEstadisticas(): Promise<{
     total: number;
-    conAlergias: number;
-    sinAlergias: number;
+    porPlato: { [key: string]: number };
     ultimaConfirmacion: Date | null;
   }> {
     const confirmaciones = await this.obtenerConfirmaciones();
 
+    // Contar por plato
+    const porPlato: { [key: string]: number } = {};
+    confirmaciones.forEach(conf => {
+      porPlato[conf.plato] = (porPlato[conf.plato] || 0) + 1;
+    });
+
     return {
       total: confirmaciones.length,
-      conAlergias: confirmaciones.filter(c => c.tieneAlergias).length,
-      sinAlergias: confirmaciones.filter(c => !c.tieneAlergias).length,
+      porPlato,
       ultimaConfirmacion: confirmaciones.length > 0 ? confirmaciones[0].fecha : null
     };
   }
 
-  /**
-   * Obtener confirmaciones para exportar a Excel
-   */
+  /* Obtener confirmaciones para exportar a Excel */
   async obtenerConfirmacionesParaExcel(): Promise<Array<{
     'No.': number;
     'Fecha de Confirmación': string;
     'Nombre Completo': string;
-    'Documento de Identidad': string;
-    '¿Tiene Alergias?': string;
-    'Mensaje/Comentarios': string;
+    'Celular': string;
+    'Plato Seleccionado': string;
   }>> {
     const confirmaciones = await this.obtenerConfirmaciones();
+
+    // Mapeo de valores de plato a etiquetas legibles
+    const platosLabels: { [key: string]: string } = {
+      'plato1': 'Lomo de Res',
+      'plato2': 'Salmón',
+      'plato3': 'Pollo'
+    };
 
     return confirmaciones.map((conf, index) => ({
       'No.': index + 1,
       'Fecha de Confirmación': conf.fecha.toLocaleString('es-CO'),
       'Nombre Completo': conf.nombre,
-      'Documento de Identidad': conf.documento,
-      '¿Tiene Alergias?': conf.tieneAlergias ? 'Sí' : 'No',
-      'Mensaje/Comentarios': conf.mensaje
+      'Celular': conf.celular,
+      'Plato Seleccionado': platosLabels[conf.plato] || conf.plato
     }));
   }
 
-  /**
-   * Buscar confirmaciones por nombre
-   */
+  /* Buscar confirmaciones por nombre */
   async buscarPorNombre(nombre: string): Promise<ConfirmacionFirebase[]> {
     const confirmaciones = await this.obtenerConfirmaciones();
     const busqueda = nombre.toLowerCase();
@@ -188,9 +180,37 @@ export class FirebaseService {
     );
   }
 
-  /**
-   * Obtener confirmaciones recientes (últimas 24 horas)
-   */
+  /* Buscar por número de celular */
+  async buscarPorCelular(celular: string): Promise<ConfirmacionFirebase | null> {
+    try {
+      const q = query(
+        collection(this.db, 'confirmaciones'),
+        where('celular', '==', celular.trim())
+      );
+
+      const querySnapshot = await getDocs(q);
+
+      if (querySnapshot.empty) {
+        return null;
+      }
+
+      const doc = querySnapshot.docs[0];
+      const data = doc.data();
+
+      return {
+        fecha: data['fecha'].toDate(),
+        nombre: data['nombre'],
+        celular: data['celular'],
+        plato: data['plato']
+      };
+
+    } catch (error) {
+      console.error('❌ Error al buscar por celular:', error);
+      return null;
+    }
+  }
+
+  /* Obtener confirmaciones recientes (últimas 24 horas) */
   async obtenerConfirmacionesRecientes(): Promise<ConfirmacionFirebase[]> {
     try {
       const ayer = new Date();
@@ -207,12 +227,10 @@ export class FirebaseService {
       return querySnapshot.docs.map(doc => {
         const data = doc.data();
         return {
-          id: doc.id,
           fecha: data['fecha'].toDate(),
           nombre: data['nombre'],
-          documento: data['documento'],
-          tieneAlergias: data['tieneAlergias'],
-          mensaje: data['mensaje']
+          celular: data['celular'],
+          plato: data['plato']
         };
       });
 
@@ -220,5 +238,35 @@ export class FirebaseService {
       console.error('❌ Error al obtener confirmaciones recientes:', error);
       return [];
     }
+  }
+
+  /* Obtener conteo por cada plato */
+  async obtenerConteoPorPlato(): Promise<{ plato: string; cantidad: number; porcentaje: number }[]> {
+    const confirmaciones = await this.obtenerConfirmaciones();
+    const total = confirmaciones.length;
+
+    if (total === 0) return [];
+
+    const conteo: { [key: string]: number } = {
+      'plato1': 0,
+      'plato2': 0,
+      'plato3': 0
+    };
+
+    confirmaciones.forEach(conf => {
+      conteo[conf.plato] = (conteo[conf.plato] || 0) + 1;
+    });
+
+    const platosLabels: { [key: string]: string } = {
+      'plato1': 'Lomo de Res',
+      'plato2': 'Salmón',
+      'plato3': 'Pollo'
+    };
+
+    return Object.entries(conteo).map(([key, cantidad]) => ({
+      plato: platosLabels[key] || key,
+      cantidad,
+      porcentaje: Math.round((cantidad / total) * 100)
+    }));
   }
 }

@@ -171,3 +171,85 @@
     font-size: 1rem;
   }
 }
+
+.helper-text {
+  display: block;
+  color: #666;
+  font-size: 0.85rem;
+  margin-top: 0.3rem;
+  font-style: italic;
+}
+
+/* Descripción del plato */
+.plato-description {
+  margin-top: 0.8rem;
+  padding: 1rem;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-left: 4px solid var(--primary);
+  border-radius: 8px;
+  animation: slideDown 0.3s ease;
+}
+
+.plato-description p {
+  margin: 0;
+  color: var(--dark);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* Mejorar el select de platos */
+.form-group select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.5rem;
+  appearance: none;
+  cursor: pointer;
+}
+
+.form-group select:hover {
+  border-color: var(--primary);
+}
+
+/* Estilo para input de celular */
+input[type="tel"] {
+  font-family: 'Courier New', monospace;
+  letter-spacing: 1px;
+  font-size: 1.05rem;
+}
+
+/* Animación para la descripción del plato */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Mejorar el aspecto del select cuando está enfocado */
+.form-group select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(196, 163, 90, 0.1);
+}
+
+/* Estilo para opciones del select (limitado por navegador) */
+.form-group select option {
+  padding: 0.5rem;
+}
+
+/* Responsive adicional */
+@media (max-width: 480px) {
+  .plato-description {
+    padding: 0.8rem;
+    font-size: 0.9rem;
+  }
+
+  input[type="tel"] {
+    font-size: 1rem;
+  }
+}

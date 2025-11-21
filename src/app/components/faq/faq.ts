@@ -25,7 +25,7 @@ export class faqComponent {
     },
     {
       question: '¿Puedo llevar niños?',
-      answer: 'Preferimos que la celebración sea un momento para adultos, pero comprendemos que algunos invitados podrían necesitar traer a sus hijos. Por favor, les pedimos amablemente que nos lo comuniquen con anticipación vía WhatsApp para coordinar mejor.',
+      answer: 'Preferimos que esta celebración sea un espacio especial para que los adultos puedan disfrutar tranquilamente. Agradecemos mucho su comprensión y cariño, y esperamos compartir con todos momentos inolvidables.',
       isOpen: false
     },
     {

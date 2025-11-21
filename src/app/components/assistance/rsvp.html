@@ -1,5 +1,6 @@
+<!-- src/app/components/rsvp/rsvp.component.html -->
 <section id="rsvp">
-  <h2 class="section-title">{{ config().title }}</h2>
+  <h2 class="section-title">Confirma tu Asistencia</h2>
   <p class="section-subtitle">
     Por favor confirma antes del {{ formattedDeadline() }}
   </p>
@@ -14,7 +15,7 @@
 
     <!-- Nombre completo -->
     <div class="form-group">
-      <label for="nombre">Nombre completo del invitado*</label>
+      <label for="nombre">Nombre completo *</label>
       <input
         type="text"
         id="nombre"
@@ -33,44 +34,56 @@
       }
     </div>
 
-    <!-- Documento de identidad -->
+    <!-- Número de celular -->
     <div class="form-group">
-      <label for="documento">Documento de identidad *</label>
+      <label for="celular">Número de celular *</label>
       <input
-        type="text"
-        id="documento"
-        formControlName="documento"
-        placeholder="Ingresa tu número de documento (solo números)"
-        [class.error]="documento?.invalid && documento?.touched">
-      @if (documento?.invalid && documento?.touched) {
+        type="tel"
+        id="celular"
+        formControlName="celular"
+        placeholder="3001234567 (10 dígitos)"
+        maxlength="10"
+        (input)="formatearCelular($event)"
+        [class.error]="celular?.invalid && celular?.touched">
+      @if (celular?.invalid && celular?.touched) {
         <span class="error-text">
-          @if (documento?.errors?.['required']) {
-            El documento es obligatorio
+          @if (celular?.errors?.['required']) {
+            El número de celular es obligatorio
           }
-          @if (documento?.errors?.['pattern']) {
-            El documento debe contener solo números
+          @if (celular?.errors?.['pattern'] || celular?.errors?.['minlength']) {
+            El celular debe tener exactamente 10 dígitos
           }
         </span>
       }
+      <small class="helper-text">Ingresa solo números, sin espacios ni guiones</small>
     </div>
 
-    <!-- Checkbox de alergias -->
-    <div class="form-group checkbox-group">
-      <input
-        type="checkbox"
-        id="alergias"
-        formControlName="alergias">
-      <label for="alergias">Tengo alergias o restricciones adicionales</label>
-    </div>
-
-    <!-- Mensaje o comentario -->
+    <!-- Selección de plato -->
     <div class="form-group">
-      <label for="mensaje">Mensaje o comentario (opcional)</label>
-      <textarea
-        id="mensaje"
-        formControlName="mensaje"
-        rows="4"
-        placeholder="Escribe aquí tus comentarios o especifica alergias..."></textarea>
+      <label for="plato">Selección de plato *</label>
+      <select
+        id="plato"
+        formControlName="plato"
+        [class.error]="plato?.invalid && plato?.touched">
+        <option value="">Selecciona tu plato preferido</option>
+        @for (platoOption of platosDisponibles(); track platoOption.value) {
+          <option [value]="platoOption.value">
+            {{ platoOption.label }}
+          </option>
+        }
+      </select>
+      @if (plato?.invalid && plato?.touched) {
+        <span class="error-text">
+          Debes seleccionar un plato
+        </span>
+      }
+
+      <!-- Descripción del plato seleccionado -->
+      @if (plato?.value) {
+        <div class="plato-description">
+          <p>{{ getDescripcionPlato(plato!.value) }}</p>
+        </div>
+      }
     </div>
 
     <!-- Mensaje de error general -->
