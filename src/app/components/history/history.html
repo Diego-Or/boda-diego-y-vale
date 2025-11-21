@@ -3,33 +3,35 @@
   <p class="section-subtitle">El camino que nos trajo hasta aquí</p>
 
   <div class="timeline">
-    @for (event of timelineEvents(); track trackByIndex($index, event); let i = $index) {
-      <div
-        #timelineItem
-        class="timeline-item"
-        [class.visible]="event.visible"
-        [attr.data-index]="i">
 
+    @for (event of timelineEvents(); track trackByIndex($index, event); let i = $index) {
+      <div #timelineItem class="timeline-item" [class.visible]="event.visible" [attr.data-index]="i">
         @if (isLeftPosition(event.position)) {
           <!-- Posición izquierda -->
           <div class="timeline-content">
             <div class="timeline-year">{{ event.year }}</div>
             <h3>{{ event.title }}</h3>
             <p>{{ event.description }}</p>
+            <div class="timeline-img"><img [src]="event.photo" [alt]="event.photoAlt"></div>
           </div>
           <div class="timeline-icon">{{ event.icon }}</div>
           <div class="space-45"></div>
         } @else {
           <!-- Posición derecha -->
+
           <div class="space-45"></div>
           <div class="timeline-icon"><p class="icon-effect-1">{{ event.icon }}</p></div>
           <div class="timeline-content">
             <div class="timeline-year">{{ event.year }}</div>
             <h3>{{ event.title }}</h3>
             <p>{{ event.description }}</p>
+            <div class="timeline-img"><img [src]="event.photo" [alt]="event.photoAlt"></div>
           </div>
         }
       </div>
     }
+
   </div>
+
+  <!-- <div class="bg-history"></div> -->
 </section>

@@ -2,12 +2,7 @@
   <!-- Video de fondo -->
   <div class="video-background">
     @if (!hasVideoError()) {
-      <video
-        #heroVideo
-        autoplay
-        muted
-        loop
-        playsinline
+      <video #heroVideo autoplay muted loopplaysinline
         [poster]="heroData().videoPoster"
         (loadeddata)="onVideoLoaded()"
         (error)="onVideoError()"
@@ -19,10 +14,7 @@
 
     <!-- Fallback: imagen si el video falla -->
     @if (hasVideoError()) {
-      <div
-        class="video-fallback"
-        [style.background-image]="'url(' + heroData().videoPoster + ')'">
-      </div>
+      <div class="video-fallback" [style.background-image]="'url(' + heroData().videoPoster + ')'"></div>
     }
 
     <!-- Overlay oscuro -->

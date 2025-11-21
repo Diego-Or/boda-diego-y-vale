@@ -7,6 +7,8 @@ interface TimelineEvent {
   icon: string;
   position: 'left' | 'right';
   visible: boolean;
+  photo: string;
+  photoAlt: string;
 }
 
 @Component({
@@ -26,7 +28,9 @@ export class historyComponent implements AfterViewInit, OnDestroy {
       description: 'En un Concierto Gospel en Bogotá, simplemente se dió el momento, Diego sacó un anillo y pidió que fuera su novia.',
       icon: '💫',
       position: 'left',
-      visible: false
+      visible: false,
+      photo: './images/2022.png',
+      photoAlt: ''
     },
     {
       year: '2024 - 2025',
@@ -34,7 +38,9 @@ export class historyComponent implements AfterViewInit, OnDestroy {
       description: 'En nuestra historia de amor hemos tenido la oportunidad de viajar por varias ciudades y hemos recolectado momentos únicos',
       icon: '❤️',
       position: 'right',
-      visible: false
+      visible: false,
+      photo: './images/viajes.png',
+      photoAlt: ''
     },
     {
       year: '2025',
@@ -42,7 +48,9 @@ export class historyComponent implements AfterViewInit, OnDestroy {
       description: 'Quería sorprenderlo con una celebración de cumpleaños, pero... Diego se arrodilló y pidió mi mano. Por supuesto, ¡dije que sí! Fue el momento más hermoso de nuestras vidas.',
       icon: '💍',
       position: 'left',
-      visible: false
+      visible: false,
+      photo: './images/propuesta.jpeg',
+      photoAlt: ''
     }
   ]);
 
