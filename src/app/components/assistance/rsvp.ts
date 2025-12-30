@@ -42,9 +42,9 @@ export class rsvpComponent implements OnInit {
 
   // Configuración del RSVP
   config = signal<RSVPConfig>({
-    deadline: new Date('2026-05-15'),
+    deadline: new Date('2026-03-15'),
     title: 'Confirma tu Asistencia',
-    subtitle: 'Por favor confirma antes del 15 de mayo de 2026'
+    subtitle: 'Por favor confirma antes del 15 de marzo de 2026'
   });
 
   // Opciones de platos
