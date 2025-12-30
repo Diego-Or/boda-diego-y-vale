@@ -8,19 +8,12 @@ interface RSVPData {
   fecha: string;
   nombre: string;
   celular: string;
-  plato: string;
 }
 
 interface RSVPConfig {
   deadline: Date;
   title: string;
   subtitle: string;
-}
-
-interface PlatoOption {
-  value: string;
-  label: string;
-  description: string;
 }
 
 // Importar la librería XLSX (debe estar en el index.html)
@@ -46,25 +39,6 @@ export class rsvpComponent implements OnInit {
     title: 'Confirma tu Asistencia',
     subtitle: 'Por favor confirma antes del 15 de marzo de 2026'
   });
-
-  // Opciones de platos
-  platosDisponibles = signal<PlatoOption[]>([
-    {
-      value: 'plato1',
-      label: 'Plato 1: Lomo de Res',
-      description: 'Lomo de res al vino tinto con papas gratinadas y vegetales asados'
-    },
-    {
-      value: 'plato2',
-      label: 'Plato 2: Salmón',
-      description: 'Salmón a la parrilla con salsa de maracuyá, arroz de coco y espárragos'
-    },
-    {
-      value: 'plato3',
-      label: 'Plato 3: Pollo',
-      description: 'Pechuga de pollo rellena de espinacas y queso con puré de papa y ensalada'
-    }
-  ]);
 
   // Computed signals
   confirmacionesCount = computed(() => this.confirmaciones().length);
@@ -93,8 +67,7 @@ export class rsvpComponent implements OnInit {
         Validators.pattern(/^[0-9]{10}$/),
         Validators.minLength(10),
         Validators.maxLength(10)
-      ]],
-      plato: ['', Validators.required]
+      ]]
     });
   }
 
@@ -106,14 +79,12 @@ export class rsvpComponent implements OnInit {
   async cargarConfirmaciones(): Promise<void> {
     try {
       const data = await this.firebaseService.obtenerConfirmaciones();
-      console.log('buenas');
 
       // Convertir formato de Firebase a RSVPData
       const confirmaciones: RSVPData[] = data.map(conf => ({
         fecha: conf.fecha.toLocaleString('es-CO'),
         nombre: conf.nombre,
-        celular: conf.celular,
-        plato: conf.plato
+        celular: conf.celular
       }));
       this.confirmaciones.set(confirmaciones);
       console.log('Confirmaciones cargadas desde Firebase:', confirmaciones.length);
@@ -127,7 +98,6 @@ export class rsvpComponent implements OnInit {
   async guardarConfirmacion(datos: {
     nombre: string;
     celular: string;
-    plato: string;
   }): Promise<boolean> {
     const success = await this.firebaseService.guardarConfirmacion(datos);
 
@@ -167,8 +137,7 @@ export class rsvpComponent implements OnInit {
       // Guardar directamente en Firebase
       await this.guardarConfirmacion({
         nombre: formValue.nombre.trim(),
-        celular: formValue.celular.trim(),
-        plato: formValue.plato
+        celular: formValue.celular.trim()
       });
 
       // Recargar confirmaciones para actualizar el contador
@@ -229,12 +198,6 @@ export class rsvpComponent implements OnInit {
     }
   }
 
-  // Obtener descripción del plato seleccionado
-  getDescripcionPlato(platoValue: string): string {
-    const plato = this.platosDisponibles().find(p => p.value === platoValue);
-    return plato?.description || '';
-  }
-
   // Helper para marcar todos los campos como touched
   private markFormGroupTouched(formGroup: FormGroup): void {
     Object.keys(formGroup.controls).forEach(key => {
@@ -250,10 +213,6 @@ export class rsvpComponent implements OnInit {
 
   get celular() {
     return this.rsvpForm.get('celular');
-  }
-
-  get plato() {
-    return this.rsvpForm.get('plato');
   }
 
   // Actualizar configuración

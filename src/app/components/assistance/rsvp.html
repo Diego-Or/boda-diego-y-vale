@@ -58,34 +58,6 @@
       <small class="helper-text">Ingresa solo números, sin espacios ni guiones</small>
     </div>
 
-    <!-- Selección de plato -->
-    <div class="form-group">
-      <label for="plato">Selección de plato *</label>
-      <select
-        id="plato"
-        formControlName="plato"
-        [class.error]="plato?.invalid && plato?.touched">
-        <option value="">Selecciona tu plato preferido</option>
-        @for (platoOption of platosDisponibles(); track platoOption.value) {
-          <option [value]="platoOption.value">
-            {{ platoOption.label }}
-          </option>
-        }
-      </select>
-      @if (plato?.invalid && plato?.touched) {
-        <span class="error-text">
-          Debes seleccionar un plato
-        </span>
-      }
-
-      <!-- Descripción del plato seleccionado -->
-      @if (plato?.value) {
-        <div class="plato-description">
-          <p>{{ getDescripcionPlato(plato!.value) }}</p>
-        </div>
-      }
-    </div>
-
     <!-- Mensaje de error general -->
     @if (errorMessage()) {
       <div class="error-message">

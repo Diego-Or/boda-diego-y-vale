@@ -7,7 +7,6 @@ export interface ConfirmacionFirebase {
   fecha: Date;
   nombre: string;
   celular: string;
-  plato: string;
 }
 
 @Injectable({
@@ -42,7 +41,6 @@ export class FirebaseService {
   async guardarConfirmacion(datos: {
     nombre: string;
     celular: string;
-    plato: string;
   }): Promise<boolean> {
     this.isLoading.set(true);
     this.error.set('');
@@ -51,8 +49,7 @@ export class FirebaseService {
       const confirmacion = {
         fecha: Timestamp.now(),
         nombre: datos.nombre.trim(),
-        celular: datos.celular.trim(),
-        plato: datos.plato
+        celular: datos.celular.trim()
       };
 
       const docRef = await addDoc(collection(this.db, 'confirmaciones'), confirmacion);
@@ -88,8 +85,7 @@ export class FirebaseService {
         return {
           fecha: data['fecha'].toDate(),
           nombre: data['nombre'],
-          celular: data['celular'],
-          plato: data['plato']
+          celular: data['celular']
         };
       });
 
@@ -123,26 +119,7 @@ export class FirebaseService {
     }
   }
 
-  /* Obtener estadísticas */
-  async obtenerEstadisticas(): Promise<{
-    total: number;
-    porPlato: { [key: string]: number };
-    ultimaConfirmacion: Date | null;
-  }> {
-    const confirmaciones = await this.obtenerConfirmaciones();
 
-    // Contar por plato
-    const porPlato: { [key: string]: number } = {};
-    confirmaciones.forEach(conf => {
-      porPlato[conf.plato] = (porPlato[conf.plato] || 0) + 1;
-    });
-
-    return {
-      total: confirmaciones.length,
-      porPlato,
-      ultimaConfirmacion: confirmaciones.length > 0 ? confirmaciones[0].fecha : null
-    };
-  }
 
   /* Obtener confirmaciones para exportar a Excel */
   async obtenerConfirmacionesParaExcel(): Promise<Array<{
@@ -150,23 +127,15 @@ export class FirebaseService {
     'Fecha de Confirmación': string;
     'Nombre Completo': string;
     'Celular': string;
-    'Plato Seleccionado': string;
   }>> {
     const confirmaciones = await this.obtenerConfirmaciones();
 
-    // Mapeo de valores de plato a etiquetas legibles
-    const platosLabels: { [key: string]: string } = {
-      'plato1': 'Lomo de Res',
-      'plato2': 'Salmón',
-      'plato3': 'Pollo'
-    };
 
     return confirmaciones.map((conf, index) => ({
       'No.': index + 1,
       'Fecha de Confirmación': conf.fecha.toLocaleString('es-CO'),
       'Nombre Completo': conf.nombre,
-      'Celular': conf.celular,
-      'Plato Seleccionado': platosLabels[conf.plato] || conf.plato
+      'Celular': conf.celular
     }));
   }
 
@@ -200,8 +169,7 @@ export class FirebaseService {
       return {
         fecha: data['fecha'].toDate(),
         nombre: data['nombre'],
-        celular: data['celular'],
-        plato: data['plato']
+        celular: data['celular']
       };
 
     } catch (error) {
@@ -229,8 +197,7 @@ export class FirebaseService {
         return {
           fecha: data['fecha'].toDate(),
           nombre: data['nombre'],
-          celular: data['celular'],
-          plato: data['plato']
+          celular: data['celular']
         };
       });
 
@@ -238,35 +205,5 @@ export class FirebaseService {
       console.error('❌ Error al obtener confirmaciones recientes:', error);
       return [];
     }
-  }
-
-  /* Obtener conteo por cada plato */
-  async obtenerConteoPorPlato(): Promise<{ plato: string; cantidad: number; porcentaje: number }[]> {
-    const confirmaciones = await this.obtenerConfirmaciones();
-    const total = confirmaciones.length;
-
-    if (total === 0) return [];
-
-    const conteo: { [key: string]: number } = {
-      'plato1': 0,
-      'plato2': 0,
-      'plato3': 0
-    };
-
-    confirmaciones.forEach(conf => {
-      conteo[conf.plato] = (conteo[conf.plato] || 0) + 1;
-    });
-
-    const platosLabels: { [key: string]: string } = {
-      'plato1': 'Lomo de Res',
-      'plato2': 'Salmón',
-      'plato3': 'Pollo'
-    };
-
-    return Object.entries(conteo).map(([key, cantidad]) => ({
-      plato: platosLabels[key] || key,
-      cantidad,
-      porcentaje: Math.round((cantidad / total) * 100)
-    }));
   }
 }
