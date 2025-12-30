@@ -38,12 +38,12 @@ export class faqComponent {
     },
     {
       question: '¿Qué tipo de regalos prefieren?',
-      answer: 'Tu presencia es nuestro mejor regalo. Sin embargo, agradeceremos mucho cualquier contribución para nuestra luna de miel y las futuras necesidades de nuestro hogar. Encontrarás más información en la sección de contacto.',
+      answer: 'Tu presencia es nuestro mejor regalo. Sin embargo, agradeceremos mucho cualquier contribución para nuestra luna de miel y las futuras necesidades de nuestro hogar. Encontrarás más información abajo, en la sección de contacto.',
       isOpen: false
     },
     {
-      question: '¿Qué hora tendrá la celebracíon?',
-      answer: 'Se estima que la ceremonia comenzará a las 2:30 p.m. y se extenderá hasta las 7:00 p.m. Tendremos un brindis, palabras especiales, actividades, cena y muchas fotos para compartir momentos inolvidables juntos.',
+      question: '¿Qué horario tendrá la celebracíon?',
+      answer: 'La ceremonia comenzará a las 2:30 p.m. y se extenderá hasta las 7:00 p.m. Tendremos un brindis, palabras especiales, actividades, cena y muchas fotos para compartir momentos inolvidables juntos.',
       isOpen: false
     },
     {

@@ -24,8 +24,8 @@ export class historyComponent implements AfterViewInit, OnDestroy {
   timelineEvents = signal<TimelineEvent[]>([
     {
       year: '2023',
-      title: 'Nos hicimos Novios',
-      description: 'En un Concierto Gospel en Bogotá, simplemente se dió el momento, Diego sacó un anillo y pidió que fuera su novia.',
+      title: 'El Noviazgo',
+      description: 'El 6 de agosto de 2023, en medio de la música y la emoción de un concierto góspel, todo se dio a la perfección. ¡nos hicimos novios!',
       icon: '💫',
       position: 'left',
       visible: false,
@@ -34,8 +34,8 @@ export class historyComponent implements AfterViewInit, OnDestroy {
     },
     {
       year: '2024 - 2025',
-      title: 'Viajes',
-      description: 'En nuestra historia de amor hemos tenido la oportunidad de viajar por varias ciudades y hemos recolectado momentos únicos',
+      title: 'Nuestro viaje',
+      description: 'En nuestra historia de amor hemos recorrido varias ciudades, guardando recuerdos únicos y creciendo juntos. En cada paso hemos aprendido el uno del otro y confirmado que Dios nos unió con un propósito especial.',
       icon: '❤️',
       position: 'right',
       visible: false,
@@ -45,7 +45,7 @@ export class historyComponent implements AfterViewInit, OnDestroy {
     {
       year: '2025',
       title: '¡Él propuso!',
-      description: 'Quería sorprenderlo con una celebración de cumpleaños, pero... Diego se arrodilló y pidió mi mano. Por supuesto, ¡dije que sí! Fue el momento más hermoso de nuestras vidas.',
+      description: 'Quería sorprenderlo con una celebración de cumpleaños, pero la sorpresa fue para mí. Diego se arrodilló y me pidió la mano. Sin dudarlo, dije que sí. Fue uno de los momentos más hermosos de nuestras vidas.',
       icon: '💍',
       position: 'left',
       visible: false,
