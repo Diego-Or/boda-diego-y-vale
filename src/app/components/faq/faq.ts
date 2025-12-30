@@ -20,8 +20,16 @@ export class faqComponent {
   faqItems = signal<FAQItem[]>([
     {
       question: '¿Cuál es el código de vestimenta?',
-      answer: `La vestimenta debe ser formal y elegante. DAMAS: se sugiere usar vestido largo o de cóctel, evitando colores muy claros. CABALLEROS: se recomienda traje completo, pero favor no usar tonos café o beige. Por favor, tengan esto en cuenta para no opacar a los novios.`,
-      isOpen: false
+      answer: `
+        La vestimenta debe ser formal y elegante.
+
+        <br><br><b>DAMAS:</b> Se sugiere usar vestido largo o de cóctel, evitando colores muy claros.
+        <br><b>CABALLEROS:</b> Se recomienda el traje completo con corbata
+        <br><br>
+
+        Se reservan tonos blancos, café, beige, crema, vino tinto<br>
+        <span class="tag tag-white"></span><span class="tag tag-beige-1"></span><span class="tag tag-beige-2"></span><span class="tag tag-beige-3"></span><span class="tag tag-beige-4"></span><span class="tag tag-guinda"></span>`,
+      isOpen: true
     },
     {
       question: '¿Puedo llevar niños?',
@@ -35,7 +43,12 @@ export class faqComponent {
     },
     {
       question: '¿Qué hora tendrá la celebracíon?',
-      answer: 'Se estima que la ceremonia comenzará a las 3:00 p.m. y se extenderá hasta las 9:00 p.m. Tendremos un brindis, palabras especiales, actividades, cena y muchas fotos para compartir momentos inolvidables juntos.',
+      answer: 'Se estima que la ceremonia comenzará a las 2:30 p.m. y se extenderá hasta las 7:00 p.m. Tendremos un brindis, palabras especiales, actividades, cena y muchas fotos para compartir momentos inolvidables juntos.',
+      isOpen: false
+    },
+    {
+      question: '¿Puedo llevar alguien adicional?',
+      answer: 'Nos encantaría que nos acompañaras con todos tus seres queridos, sin embargo la invitación es solamente para la persona que la recibe, Si consideras que se trata de alguien cercano, por favor escríbenos y lo revisamos juntos.',
       isOpen: false
     }
   ]);
@@ -78,5 +91,12 @@ export class faqComponent {
    */
   trackByQuestion(index: number, item: FAQItem): string {
     return item.question;
+  }
+
+  boxStyles ={
+    'background-color': '#2196f3',
+    color: 'white',
+    padding: '8px 12px',
+    'border-radius': '4px'
   }
 }

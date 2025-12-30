@@ -43,8 +43,8 @@
       flex: 1;
       padding-right: 1rem;
     }
-  }
 
+  }
 
   // Respuesta
   .faq-answer {
@@ -53,7 +53,7 @@
     transition: max-height 0.4s ease, padding 0.4s ease;
     padding: 0 1.5rem;
 
-    p {
+    .answer{
       color: var(--dark);
       line-height: 1.7;
       margin: 0;
@@ -62,6 +62,8 @@
       transition: opacity 0.3s ease 0.1s, transform 0.3s ease 0.1s;
     }
   }
+
+
   .faq-item.active .faq-answer {
     max-height: 500px;
     padding: 0 1.5rem 1.5rem;
@@ -77,6 +79,39 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+// Estilos para tags usando :host ::ng-deep para aplicar a elementos insertados con innerHTML
+:host ::ng-deep .tag {
+  margin-top: 10px;
+  display: inline-block;
+  padding: 15px 15px;
+  border-radius: 25px;
+  vertical-align: middle;
+  margin-right: 6px;
+  border: 2px solid goldenrod;
+}
+
+:host ::ng-deep .tag-beige-1 {
+  background-color: #987d69;
+}
+
+:host ::ng-deep .tag-beige-2  {
+  background-color: #895947;
+}
+
+:host ::ng-deep .tag-beige-3  {
+  background-color: #6b3f26;
+}
+
+:host ::ng-deep .tag-beige-4  {
+  background-color: #bc9883;
+}
+:host ::ng-deep .tag-white  {
+  background-color: #ebeaea;
+}
+:host ::ng-deep .tag-guinda  {
+  background-color: #55042a;
 }
 
 
@@ -133,6 +168,7 @@
 
 /* RESPONSIVE */
 @media (max-width: 768px) {
+
   .faq-question {
     padding: 1.2rem;
     font-size: 0.95rem;
@@ -148,6 +184,7 @@
 }
 
 @media (max-width: 480px) {
+
   .faq-question {
     padding: 1rem;
     flex-direction: column;

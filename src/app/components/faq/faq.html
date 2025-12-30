@@ -14,7 +14,8 @@
 
         <!-- Respuesta -->
         <div class="faq-answer">
-          <p>{{ item.answer }}</p>
+          <!-- <p>{{ item.answer }}</p> -->
+          <p class="answer" [innerHTML]="item.answer"></p>
         </div>
       </div>
     }
