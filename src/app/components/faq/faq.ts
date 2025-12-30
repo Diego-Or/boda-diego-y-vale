@@ -93,10 +93,4 @@ export class faqComponent {
     return item.question;
   }
 
-  boxStyles ={
-    'background-color': '#2196f3',
-    color: 'white',
-    padding: '8px 12px',
-    'border-radius': '4px'
-  }
 }
