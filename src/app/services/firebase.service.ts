@@ -89,7 +89,7 @@ export class FirebaseService {
         };
       });
 
-      console.log(`✅ ${confirmaciones.length} confirmaciones obtenidas de Firebase`);
+      // console.log(`✅ ${confirmaciones.length} confirmaciones obtenidas de Firebase`);
       return confirmaciones;
 
     } catch (error: any) {

@@ -23,7 +23,6 @@ export class headerComponent {
   navItems = signal<NavItem[]>([
     { label: 'Inicio', href: '#inicio', id: 'inicio' },
     { label: 'Historia', href: '#historia', id: 'historia' },
-    // { label: 'Detalles', href: '#detalles', id: 'detalles' },
     { label: 'Ubicación', href: '#ubicacion', id: 'ubicacion' },
     { label: 'RSVP', href: '#rsvp', id: 'rsvp' },
     { label: 'Galería', href: '#galeria', id: 'galeria' },

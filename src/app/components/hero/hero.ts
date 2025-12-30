@@ -37,7 +37,7 @@ export class heroComponent implements OnInit, OnDestroy {
   heroData = signal<HeroData>({
     groomName: 'Diego',
     brideName: 'Vale',
-    weddingDate: new Date('2026-06-15T17:00:00'),
+    weddingDate: new Date('2026-05-02T14:00:00'),
     welcomeMessage: 'Con alegría en nuestros corazones, te invitamos a ser parte del día más especial de nuestras vidas. Celebremos juntos el amor, la familia y el inicio de una nueva aventura.',
     videoUrl: 'https://invitacion-dyv.netlify.app/video/hero-video.mp4',
     videoPoster: 'https://invitacion-dyv.netlify.app/images/thumbnail.png',
@@ -112,12 +112,12 @@ export class heroComponent implements OnInit, OnDestroy {
 
       video.play()
         .then(() => {
-          console.log('✅ Video reproduciendo correctamente');
+
           this.showPlayButton.set(false);
           this.isVideoLoaded.set(true);
         })
         .catch(error => {
-          console.log('⚠️ Autoplay bloqueado por el navegador');
+
           // Mostrar botón de play para que el usuario inicie manualmente
           this.showPlayButton.set(true);
           this.isVideoLoaded.set(false);
@@ -138,13 +138,13 @@ export class heroComponent implements OnInit, OnDestroy {
   // Método cuando el video se carga exitosamente
   onVideoLoaded(): void {
     this.isVideoLoaded.set(true);
-    console.log('Video cargado exitosamente');
+
     this.playVideo();
   }
 
   // Método cuando el video puede reproducirse
   onVideoCanPlay(): void {
-    console.log('Video listo para reproducir');
+
     this.playVideo();
   }
   private startCountdown(): void {
@@ -190,7 +190,7 @@ export class heroComponent implements OnInit, OnDestroy {
   // Método cuando hay error en la carga del video
   onVideoError(): void {
     this.hasVideoError.set(true);
-    console.error('Error al cargar el video');
+
   }
 
   // Método para reintentar cargar el video
@@ -200,14 +200,6 @@ export class heroComponent implements OnInit, OnDestroy {
     if (this.heroVideo?.nativeElement) {
       this.heroVideo.nativeElement.load();
     }
-  }
-
-  // Método para actualizar datos del hero
-  updateHeroData(newData: Partial<HeroData>): void {
-    this.heroData.update(current => ({
-      ...current,
-      ...newData
-    }));
   }
 
   // Método para formatear números con ceros a la izquierda

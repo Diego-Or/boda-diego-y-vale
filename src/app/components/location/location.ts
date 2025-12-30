@@ -29,14 +29,6 @@ export class locationComponent {
 
   constructor(private sanitizer: DomSanitizer) {}
 
-  // Método para actualizar la ubicación completa
-  updateLocation(newData: Partial<LocationData>): void {
-    this.locationData.update(current => ({
-      ...current,
-      ...newData
-    }));
-  }
-
   // Método para abrir Google Maps
   openGoogleMaps(): void {
     window.open(this.locationData().googleMapsLink, '_blank');

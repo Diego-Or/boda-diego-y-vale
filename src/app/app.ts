@@ -14,7 +14,6 @@ import { contactComponent } from './components/contact/contact';
   selector: 'app-root',
   imports: [headerComponent, heroComponent, historyComponent, locationComponent, rsvpComponent, galleryComponent, faqComponent, contactComponent, footerComponent],
   templateUrl: './app.html',
-  styleUrl: './app.scss'
 })
 export class App {
   protected readonly title = signal('boda-angular');

@@ -87,7 +87,7 @@ export class rsvpComponent implements OnInit {
         celular: conf.celular
       }));
       this.confirmaciones.set(confirmaciones);
-      console.log('Confirmaciones cargadas desde Firebase:', confirmaciones.length);
+      // console.log('Confirmaciones cargadas desde Firebase:', confirmaciones.length);
     } catch (error) {
       console.error('Error al cargar confirmaciones:', error);
       this.confirmaciones.set([]);
@@ -213,14 +213,6 @@ export class rsvpComponent implements OnInit {
 
   get celular() {
     return this.rsvpForm.get('celular');
-  }
-
-  // Actualizar configuración
-  updateConfig(newConfig: Partial<RSVPConfig>): void {
-    this.config.update(current => ({
-      ...current,
-      ...newConfig
-    }));
   }
 
   // Formatear número de celular mientras se escribe
