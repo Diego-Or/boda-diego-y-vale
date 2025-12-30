@@ -2,10 +2,17 @@
   <!-- Video de fondo -->
   <div class="video-background">
     @if (!hasVideoError()) {
-      <video #heroVideo autoplay muted loopplaysinline
+      <video
+        #heroVideo
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="auto"
         [poster]="heroData().videoPoster"
         (loadeddata)="onVideoLoaded()"
         (error)="onVideoError()"
+        (canplay)="onVideoCanPlay()"
         [class.loaded]="isVideoLoaded()">
         <source [src]="heroData().videoUrl" type="video/mp4">
         Tu navegador no soporta videos HTML5.
@@ -14,7 +21,10 @@
 
     <!-- Fallback: imagen si el video falla -->
     @if (hasVideoError()) {
-      <div class="video-fallback" [style.background-image]="'url(' + heroData().videoPoster + ')'"></div>
+      <div
+        class="video-fallback"
+        [style.background-image]="'url(' + heroData().videoPoster + ')'">
+      </div>
     }
 
     <!-- Overlay oscuro -->
