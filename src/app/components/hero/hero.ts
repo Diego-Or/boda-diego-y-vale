@@ -1,3 +1,6 @@
+// videoUrl: 'https://invitacion-dyv.netlify.app/video/hero-video.mp4',
+// videoPoster: 'https://invitacion-dyv.netlify.app/images/thumbnail.png',
+
 // hero.component.ts
 import { Component, signal, computed, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -36,8 +39,8 @@ export class heroComponent implements OnInit, OnDestroy {
     brideName: 'Vale',
     weddingDate: new Date('2026-06-15T17:00:00'),
     welcomeMessage: 'Con alegría en nuestros corazones, te invitamos a ser parte del día más especial de nuestras vidas. Celebremos juntos el amor, la familia y el inicio de una nueva aventura.',
-    videoUrl: 'video/hero-video.mp4',
-    videoPoster: 'video/thumbnail.png',
+    videoUrl: 'https://invitacion-dyv.netlify.app/video/hero-video.mp4',
+    videoPoster: 'https://invitacion-dyv.netlify.app/images/thumbnail.png',
     ctaButtonText: 'Comenzar a explorar',
     ctaButtonLink: '#historia'
   });
@@ -55,6 +58,9 @@ export class heroComponent implements OnInit, OnDestroy {
 
   // Señal para controlar si el video tiene error
   hasVideoError = signal<boolean>(false);
+
+  // Señal para mostrar botón de play manual
+  showPlayButton = signal<boolean>(false);
 
   // Computed signal para la fecha formateada
   formattedDate = computed(() => {
@@ -99,11 +105,41 @@ export class heroComponent implements OnInit, OnDestroy {
   playVideo(): void {
     if (this.heroVideo?.nativeElement) {
       const video = this.heroVideo.nativeElement;
-      video.play().catch(error => {
-        console.log('Error al reproducir video automáticamente:', error);
-        // Si falla el autoplay, el poster se mantiene visible
-      });
+
+      // Asegurar que está muted
+      video.muted = true;
+      video.volume = 0;
+
+      video.play()
+        .then(() => {
+          console.log('✅ Video reproduciendo correctamente');
+          this.showPlayButton.set(false);
+          this.isVideoLoaded.set(true);
+        })
+        .catch(error => {
+          console.log('⚠️ Autoplay bloqueado por el navegador');
+          // Mostrar botón de play para que el usuario inicie manualmente
+          this.showPlayButton.set(true);
+          this.isVideoLoaded.set(false);
+        });
     }
+  }
+
+  // Método cuando el usuario hace clic en el botón play
+  onUserClickPlay(): void {
+    this.playVideo();
+    // También intentar con interacción del usuario
+    if (this.heroVideo?.nativeElement) {
+      this.heroVideo.nativeElement.muted = true;
+      this.heroVideo.nativeElement.play();
+    }
+  }
+
+  // Método cuando el video se carga exitosamente
+  onVideoLoaded(): void {
+    this.isVideoLoaded.set(true);
+    console.log('Video cargado exitosamente');
+    this.playVideo();
   }
 
   // Método cuando el video puede reproducirse
@@ -151,12 +187,6 @@ export class heroComponent implements OnInit, OnDestroy {
     }
   }
 
-  // Método cuando el video se carga exitosamente
-  onVideoLoaded(): void {
-    this.isVideoLoaded.set(true);
-    console.log('Video cargado exitosamente');
-  }
-
   // Método cuando hay error en la carga del video
   onVideoError(): void {
     this.hasVideoError.set(true);
@@ -185,20 +215,3 @@ export class heroComponent implements OnInit, OnDestroy {
     return num.toString().padStart(2, '0');
   }
 }
-
-// EJEMPLO DE VIDEOS GRATUITOS PARA USAR:
-/*
-Videos de bodas gratuitos de Coverr.co:
-1. https://cdn.coverr.co/videos/coverr-wedding-couple-walking-in-nature-6245/1080p.mp4
-2. https://cdn.coverr.co/videos/coverr-wedding-rings-5856/1080p.mp4
-3. https://cdn.coverr.co/videos/coverr-bride-and-groom-7394/1080p.mp4
-
-Videos de Pexels (necesitan descargarse primero):
-- https://www.pexels.com/search/videos/wedding/
-
-Actualizar en el componente:
-this.updateHeroData({
-  videoUrl: 'tu-video-url.mp4',
-  videoPoster: 'tu-imagen-poster.jpg'
-});
-*/

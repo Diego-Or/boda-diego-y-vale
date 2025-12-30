@@ -31,6 +31,12 @@
   opacity: 1;
 }
 
+/* Mostrar el poster mientras carga */
+.video-background video[poster] {
+  background-size: cover;
+  background-position: center;
+}
+
 .video-fallback {
   width: 100%;
   height: 100%;
@@ -181,6 +187,29 @@
   transform: scale(1.1);
 }
 
+/* Botón de play para cuando el autoplay está bloqueado */
+.play-video-btn {
+  display: inline-block;
+  padding: 1rem 3rem;
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--white);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  margin-bottom: 1rem;
+  animation: pulse 2s infinite;
+}
+
+.play-video-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(255, 255, 255, 0.2);
+}
+
 /* Animaciones */
 @keyframes fadeInUp {
   from {
@@ -190,6 +219,15 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
   }
 }
 

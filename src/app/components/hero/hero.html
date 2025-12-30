@@ -37,6 +37,13 @@
     <p class="date">{{ formattedDate() }}</p>
     <p class="welcome-message">{{ heroData().welcomeMessage }}</p>
 
+    <!-- Botón de play del video (solo si está bloqueado) -->
+    @if (showPlayButton()) {
+      <button class="play-video-btn" (click)="onUserClickPlay()">
+        ▶️ Reproducir Video
+      </button>
+    }
+
     <a
       [href]="heroData().ctaButtonLink"
       class="btn"
