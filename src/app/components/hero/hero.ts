@@ -32,7 +32,7 @@ export class heroComponent {
   heroData = signal<HeroData>({
     groomName: 'Diego',
     brideName: 'Vale',
-    weddingDate: new Date('2026-04-15T17:00:00'),
+    weddingDate: new Date('2026-05-02T14:00:00'),
     welcomeMessage: 'Con alegría en nuestros corazones, te invitamos a ser parte del día más especial de nuestras vidas. Celebremos juntos el amor, la familia y el inicio de una nueva aventura.',
     videoUrl: 'https://diegoyvale-boda.netlify.app/video/hero-video.mp4',
     videoPoster: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=1600',
