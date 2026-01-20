@@ -15,12 +15,14 @@ interface GalleryImage {
 export class galleryComponent {
 
   images = signal<GalleryImage[]>([
-    { src: 'https://images.unsplash.com/photo-1606800052052-a08af7148866?w=600', alt: 'Foto 1', index: 0 },
-    { src: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=600', alt: 'Foto 3', index: 2 },
-    { src: 'https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=600', alt: 'Foto 4', index: 3 },
-    { src: 'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=600', alt: 'Foto 5', index: 4 },
-    { src: 'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=600', alt: 'Foto 6', index: 5 },
-    { src: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=600', alt: 'Foto 9', index: 8 }
+    { src: 'https://invitacion-dyv.netlify.app/images/gallery/1.jpg', alt: 'Foto 1', index: 0 },
+    { src: 'https://invitacion-dyv.netlify.app/images/gallery/2.jpg', alt: 'Foto 3', index: 2 },
+    { src: 'https://invitacion-dyv.netlify.app/images/gallery/3.jpg', alt: 'Foto 4', index: 3 },
+    { src: 'https://invitacion-dyv.netlify.app/images/gallery/4.jpg', alt: 'Foto 5', index: 4 },
+    { src: 'https://invitacion-dyv.netlify.app/images/gallery/5.jpg', alt: 'Foto 6', index: 5 },
+    { src: 'https://invitacion-dyv.netlify.app/images/gallery/6.jpg', alt: 'Foto 6', index: 6 },
+    { src: 'https://invitacion-dyv.netlify.app/images/gallery/7.jpg', alt: 'Foto 6', index: 7 },
+    { src: 'https://invitacion-dyv.netlify.app/images/gallery/8.jpg', alt: 'Foto 6', index: 8 }
   ]);
 
   currentImageIndex = signal<number>(0);
