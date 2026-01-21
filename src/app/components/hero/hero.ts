@@ -39,8 +39,8 @@ export class heroComponent implements OnInit, OnDestroy {
     brideName: 'Vale',
     weddingDate: new Date('2026-05-02T14:00:00'),
     welcomeMessage: 'Con alegría en nuestros corazones, te invitamos a ser parte del día más especial de nuestras vidas. Celebremos juntos el amor, la familia y el inicio de una nueva aventura.',
-    videoUrl: 'https://invitacion-dyv.netlify.app/video/hero-video.mp4',
-    videoPoster: 'https://invitacion-dyv.netlify.app/images/thumbnail.png',
+    videoUrl: 'https://invitacion-dyv.netlify.app/video/hero-video-desk.mp4',
+    videoPoster: 'https://invitacion-dyv.netlify.app/images/thumbnail.webp',
     ctaButtonText: 'Comenzar a explorar',
     ctaButtonLink: '#historia'
   });
@@ -138,13 +138,11 @@ export class heroComponent implements OnInit, OnDestroy {
   // Método cuando el video se carga exitosamente
   onVideoLoaded(): void {
     this.isVideoLoaded.set(true);
-
     this.playVideo();
   }
 
   // Método cuando el video puede reproducirse
   onVideoCanPlay(): void {
-
     this.playVideo();
   }
   private startCountdown(): void {
@@ -190,7 +188,6 @@ export class heroComponent implements OnInit, OnDestroy {
   // Método cuando hay error en la carga del video
   onVideoError(): void {
     this.hasVideoError.set(true);
-
   }
 
   // Método para reintentar cargar el video
