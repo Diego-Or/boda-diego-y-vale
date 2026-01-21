@@ -43,12 +43,12 @@ export class faqComponent {
     },
     {
       question: '¿Qué horario tendrá la celebracíon?',
-      answer: 'La ceremonia comenzará a las 2:30 p.m. y se extenderá hasta las 7:00 p.m. Tendremos un brindis, palabras especiales, actividades, cena y muchas fotos para compartir momentos inolvidables juntos.',
+      answer: 'La ceremonia comenzará a las 2:00 p.m. y se extenderá hasta las 7:00 p.m. Tendremos un brindis, palabras especiales, actividades, cena y muchas fotos para compartir momentos inolvidables juntos.',
       isOpen: false
     },
     {
       question: '¿Puedo llevar alguien adicional?',
-      answer: 'Nos encantaría que nos acompañaras con todos tus seres queridos, sin embargo la invitación es solamente para la persona que la recibe, Si consideras que se trata de alguien cercano, por favor escríbenos y lo revisamos juntos.',
+      answer: 'Nos encantaría que nos acompañaras con todos tus seres queridos, sin embargo la invitación es solamente para la persona que la recibe, si consideras que se trata de alguien cercano, por favor escríbenos y lo revisamos juntos.',
       isOpen: false
     }
   ]);

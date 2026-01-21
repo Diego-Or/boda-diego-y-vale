@@ -35,7 +35,7 @@ export class historyComponent implements AfterViewInit, OnDestroy {
     {
       year: '2024 - 2025',
       title: 'Nuestro viaje',
-      description: 'En nuestra historia de amor hemos recorrido varias ciudades, guardando recuerdos únicos y creciendo juntos. En cada paso hemos aprendido el uno del otro y confirmado que Dios nos unió con un propósito especial.',
+      description: 'En nuestra historia de amor hemos guardando recuerdos únicos y hemos podido crecer juntos. En cada paso hemos aprendido el uno del otro y confirmado que Dios nos unió con un propósito especial.',
       icon: '❤️',
       position: 'right',
       visible: false,
@@ -44,7 +44,7 @@ export class historyComponent implements AfterViewInit, OnDestroy {
     },
     {
       year: '2025',
-      title: '¡Él propuso!',
+      title: '¡La propuesta!',
       description: 'Quería sorprenderlo con una celebración de cumpleaños, pero la sorpresa fue para mí. Diego se arrodilló y me pidió la mano. Sin dudarlo, dije que sí. Fue uno de los momentos más hermosos de nuestras vidas.',
       icon: '💍',
       position: 'left',
