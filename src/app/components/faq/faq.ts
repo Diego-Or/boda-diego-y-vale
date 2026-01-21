@@ -33,7 +33,7 @@ export class faqComponent {
     },
     {
       question: '¿Puedo llevar niños?',
-      answer: 'Preferimos que esta celebración sea un espacio especial para que los adultos puedan disfrutar tranquilamente. Agradecemos mucho su comprensión y cariño, y esperamos compartir con todos momentos inolvidables.',
+      answer: 'Con mucho cariño, hemos decidido que esta celebración sea exclusivamente para adultos, por lo que no será posible asistir con niños. Agradecemos profundamente su comprensión y esperamos compartir juntos momentos realmente especiales.',
       isOpen: false
     },
     {
